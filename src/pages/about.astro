@@ -1,0 +1,9 @@
+---
+import {withBase} from '../lib/paths';
+import SiteLayout from '../components/SiteLayout.astro';
+import NightWindow from '../components/NightWindow.astro';
+import {SITE_TITLE} from '../consts';
+---
+<SiteLayout title={`关于 · ${SITE_TITLE}`} description={`关于 ${SITE_TITLE}，一个慢慢生长的个人小站。`}>
+  <div class="about-grid shell"><section class="panel about-panel"><p class="eyebrow">ABOUT / 关于这里</p><h1>一个可以慢慢长大的地方。</h1><div class="prose"><p>这里是 {SITE_TITLE}。先让文章有一个家，再一点一点，把它变成自己的样子。</p><p>普通的记录，零碎的发现，散落的小细节，都可以在这里留一会儿。</p><h2>关于我</h2><aside class="editable-note"><strong>这段介绍，留给你亲自填写。</strong><p>叫什么，喜欢什么，在做什么，想让来访者了解什么——你可以从最想说的一句开始。</p></aside><h2>从哪里逛起</h2><p><a href={withBase('/blog/')}>文章架</a>里放着文字。现在的几篇内容是示例，后面会换成你的文章。</p><p>小站的其他角落，留给时间和新的想法。</p></div><a class="text-link" href={withBase('/')}>← 回到小站入口</a></section><aside class="panel about-window"><NightWindow/><p>小站正在生长。<br /><span class="quiet-note">故事等你落笔。</span></p></aside></div>
+</SiteLayout>

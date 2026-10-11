@@ -1,0 +1,35 @@
+---
+import {withBase} from '../lib/paths';
+import SiteLayout from '../components/SiteLayout.astro';
+import PostCard from '../components/PostCard.astro';
+import BeijingWindow from '../components/BeijingWindow.astro';
+import {getPublicPosts,postHref} from '../lib/posts';
+import {beijingDate} from '../lib/beijing';
+import {SITE_TITLE} from '../consts';
+const publicPosts=await getPublicPosts();
+const calendarPosts=publicPosts.map(post=>({title:post.data.title,href:postHref(post),date:beijingDate(post.data.pubDate)}));
+---
+<SiteLayout>
+  <div class="window-journal shell" data-window-journal>
+    <div class="room-topline"><div><span class="room-coordinate">39°54′ N · 116°24′ E</span><h1 data-season-label>北京 · 窗边手帐</h1></div><div class="weather-slip"><span data-beijing-date>今天的北京</span><strong data-weather-text>正在看看窗外…</strong><span data-weather-updated>天气来自 Open-Meteo</span><div class="weather-source"><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a><a href="https://open-meteo.com/en/licence" target="_blank" rel="noopener noreferrer">CC BY 4.0</a><button type="button" data-weather-retry aria-label="重新获取北京天气">↻</button></div></div></div>
+    <div class="window-scene-block"><BeijingWindow/></div>
+    <div class="desk-layout">
+      <div class="journal-pages">
+        <div class="welcome-note"><span class="note-pin" aria-hidden="true">✦</span><p>你好，这里是 <strong>{SITE_TITLE}</strong>。</p><p>窗外是北京，桌上是还没写完的生活。<br/>先坐一会儿，随便翻翻。</p><a href={withBase('/about/')}>认识这扇窗的主人 ↗</a></div>
+        <section class="journal-sheet" aria-labelledby="journal-title"><div class="journal-sheet-heading"><span class="paper-tab">书页 / WORDS</span><h2 id="journal-title">最近写下的</h2><a href={withBase('/rss.xml')}>RSS ↗</a></div><div class="post-list">{publicPosts.length?publicPosts.slice(0,3).map((post,index)=><PostCard post={post} index={index}/>):<p class="empty-state">第一篇文章还在路上。</p>}</div><a class="all-posts" href={withBase('/blog/')}>翻开全部文章 →</a></section>
+        <p class="desk-scribble">有些故事还没准备好开口。<span>先留一页，慢慢写。</span></p>
+      </div>
+      <aside class="desk-calendar" aria-label="文章日历">
+        <div class="calendar-rings" aria-hidden="true"><i></i><i></i></div><span class="calendar-kicker">在日子里翻页</span>
+        <div class="calendar-header"><button type="button" data-calendar-shift="-1" aria-label="上一个月">‹</button><h2 data-calendar-month>日历</h2><button type="button" data-calendar-shift="1" aria-label="下一个月">›</button></div>
+        <div class="calendar-weekdays" aria-hidden="true">{['一','二','三','四','五','六','日'].map(day=><span>{day}</span>)}</div>
+        <div class="calendar-grid" data-calendar-grid aria-label="日期"></div><noscript><p>开启 JavaScript 后，可以按日期翻阅文章。</p></noscript>
+        <div class="calendar-legend"><span>小圆点是写过文章的日子</span><button type="button" data-calendar-today>回到今天</button></div>
+        <div class="calendar-entry"><h3 data-calendar-selected>选择一天</h3><div data-calendar-entries aria-live="polite"></div></div>
+        <span class="calendar-footnote">日历翻过去，窗外仍是今天。</span>
+      </aside>
+    </div>
+  </div>
+  <script type="application/json" id="calendar-posts" set:html={JSON.stringify(calendarPosts).replaceAll('<','\\u003c')}/>
+</SiteLayout>
+

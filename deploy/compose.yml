@@ -1,0 +1,14 @@
+services:
+  blog:
+    image: nginx:alpine
+    container_name: neonnexus-blog
+    restart: unless-stopped
+    volumes:
+      - /opt/neonnexus:/srv/neonnexus:ro
+      - /opt/neonnexus/nginx.conf:/etc/nginx/conf.d/default.conf:ro
+    networks:
+      - docmost_default
+
+networks:
+  docmost_default:
+    external: true

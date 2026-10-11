@@ -1,0 +1,7 @@
+---
+import type {CollectionEntry} from 'astro:content';
+import {postHref,formatDate} from '../lib/posts';
+interface Props { post:CollectionEntry<'blog'>; index?:number; }
+const {post,index=0}=Astro.props;
+---
+<article class="post-row"><span class="post-index mono" aria-hidden="true">{String(index+1).padStart(2,'0')}</span><div class="post-summary"><h3><a href={postHref(post)}><span class="post-title">{post.data.title}</span><span class="post-arrow" aria-hidden="true">↗</span></a></h3><div class="post-meta"><time datetime={post.data.pubDate.toISOString()}>{formatDate(post.data.pubDate)}</time>{post.data.example && <span class="example-label">示例</span>}{post.data.tags?.slice(0,2).map(tag=><span class="post-tag">#{tag}</span>)}</div><p>{post.data.description}</p></div></article>

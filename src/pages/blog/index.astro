@@ -1,0 +1,33 @@
+---
+import {withBase} from '../../lib/paths';
+import SiteLayout from '../../components/SiteLayout.astro';
+import PostCard from '../../components/PostCard.astro';
+import { getPublicPosts } from '../../lib/posts';
+import { SITE_TITLE } from '../../consts';
+const posts = await getPublicPosts();
+---
+
+<SiteLayout title={`文章 · ${SITE_TITLE}`} description="这个小站慢慢积累的文字。">
+	<div class="archive-page shell">
+		<section class="archive-room" aria-labelledby="archive-title">
+			<div class="archive-bar"><span class="mono">THE READING ROOM</span><span class="mono">{String(posts.length).padStart(2, '0')} ENTRIES</span></div>
+			<header class="archive-intro"><h1 id="archive-title">文章架</h1><p>雨还在下。挑一篇，坐一会儿。</p></header>
+			{posts.length ? <div class="post-list">{posts.map((post, index) => <PostCard post={post} index={index} />)}</div> : <p class="empty-state">第一篇文章还在路上。这一格，先留空。</p>}
+			<div class="archive-end"><a href={withBase('/')}>← 回到小站</a><a href={withBase('/rss.xml')}>RSS 订阅 ↗</a></div>
+		</section>
+	</div>
+</SiteLayout>
+
+<style>
+	.archive-page {padding: 0 0 1.5rem;}
+	.archive-room {border: 1px solid var(--line); background: var(--surface);}
+	.archive-bar {display: flex; justify-content: space-between; flex-wrap: wrap; gap: .5rem; padding: .65rem 1.25rem; border-bottom: 1px solid var(--line); color: var(--muted);}
+	.archive-intro {padding: 1.25rem 1.25rem .75rem;}
+	h1 {font-size: 1.7rem; line-height: 1.4; margin: 0 0 .45rem;}
+	.archive-intro p {margin: 0; color: var(--muted); font-size: .9rem;}
+	.post-list {padding: 0 1.25rem;}
+	.archive-end {display: flex; justify-content: space-between; gap: .75rem; flex-wrap: wrap; padding: 1rem 1.25rem; color: var(--muted); font-size: .85rem;}
+	.empty-state {padding: 1.25rem;}
+	@media (max-width: 400px) {.archive-bar,.archive-intro,.archive-end {padding-inline: .85rem;} .post-list {padding-inline: .85rem;}}
+</style>
+

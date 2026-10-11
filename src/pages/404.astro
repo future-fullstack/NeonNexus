@@ -1,0 +1,16 @@
+---
+import {withBase} from '../lib/paths';
+import SiteLayout from '../components/SiteLayout.astro';
+import { SITE_TITLE } from '../consts';
+---
+<SiteLayout title={`迷路了 · ${SITE_TITLE}`} description="这间房暂时没有来信。">
+	<section class="lost-page shell">
+		<div class="lost-room">
+			<div class="mono">ROOM 404 / 暂无来信</div>
+			<h1>你走到了一间空房。</h1>
+			<p>也许链接变了，也许这篇文章还没有公开。<br />别急，文章架上还有一些文字。</p>
+			<a href={withBase('/blog/')}>← 回到文章架</a>
+		</div>
+	</section>
+</SiteLayout>
+<style>.lost-page {padding: 0 0 1.5rem; min-height: 45vh;} .lost-room {padding: clamp(1.25rem, 5vw, 3rem); border: 1px solid var(--line); background: var(--surface);} .mono {color: var(--muted);} h1 {font-size: clamp(1.4rem, 4vw, 2rem); line-height: 1.4; margin: 1.25rem 0;} p {color: var(--muted); margin-bottom: 1.5rem;}</style>

@@ -1,0 +1,6 @@
+---
+import {withBase} from '../lib/paths';
+import {SITE_TITLE} from '../consts';
+const year=new Date().getFullYear();
+---
+<footer class="site-footer shell"><p><span class="footer-star" aria-hidden="true">✧</span> {SITE_TITLE} · 一篇一篇，慢慢生长。<span class="copyright">© {year}</span></p><div><a href={withBase('/rss.xml')}>RSS</a><span aria-hidden="true">·</span><a href="#top">回到楼上 ↑</a></div></footer>

@@ -1,0 +1,14 @@
+---
+import {withBase} from '../lib/paths';
+import type {CollectionEntry} from 'astro:content';
+import type {MarkdownHeading} from 'astro';
+import SiteLayout from '../components/SiteLayout.astro';
+import {formatDate} from '../lib/posts';
+import {SITE_TITLE} from '../consts';
+type Props=CollectionEntry<'blog'>['data'] & {headings?:MarkdownHeading[]};
+const {title,description,pubDate,updatedDate,heroImage,tags=[],example=false,headings=[]}=Astro.props;
+const contents=headings.filter(heading=>heading.depth===2 || heading.depth===3);
+---
+<SiteLayout title={`${title} · ${SITE_TITLE}`} description={description}>
+  <article class="article-page shell"><a class="back-link" href={withBase('/blog/')}>← 回到文章架</a><div class="panel article-panel"><header class="article-heading"><p class="eyebrow">JOURNAL ENTRY / 文章</p><h1>{title}</h1><div class="post-meta"><time datetime={pubDate.toISOString()}>{formatDate(pubDate)}</time>{example && <span class="example-label">示例文章</span>}{tags.map(tag=><span class="post-tag">#{tag}</span>)}</div><p class="article-description">{description}</p>{updatedDate && <p class="updated-date">更新于 <time datetime={updatedDate.toISOString()}>{formatDate(updatedDate)}</time></p>}</header>{heroImage && <img class="article-image" src={withBase(heroImage)} alt="" width="1200" height="600"/>}{contents.length>0 && <details class="article-toc" open><summary>这一页的目录</summary><ol>{contents.map(heading=><li class:list={[{'toc-nested':heading.depth===3}]}><a href={`#${heading.slug}`}>{heading.text}</a></li>)}</ol></details>}<div class="prose article-body"><slot/></div><div class="article-end"><span aria-hidden="true">✧ · ✧ · ✧</span><p>这一页，先写到这里。</p><a href={withBase('/blog/')}>继续翻文章架 →</a></div></div></article>
+</SiteLayout>
