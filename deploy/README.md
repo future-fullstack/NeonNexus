@@ -34,7 +34,7 @@ Remove-Item Env:SITE_URL, Env:SITE_BASE
 ```sh
 # 更新前记下旧版本目录，替换链接只发生在 /opt/neonnexus。
 readlink /opt/neonnexus/current
-ln -s /opt/neonnexus/releases/<新版本> /opt/neonnexus/current.next
+ln -s releases/<新版本> /opt/neonnexus/current.next
 mv -Tf /opt/neonnexus/current.next /opt/neonnexus/current
 docker exec neonnexus-blog nginx -t
 ```
