@@ -1,0 +1,14 @@
+---
+import {loadPublicPost} from '../../lib/content-api';
+import {renderMarkdown} from '../../lib/markdown';
+import BlogPost from '../../layouts/BlogPost.astro';
+import SiteLayout from '../../components/SiteLayout.astro';
+import {withBase} from '../../lib/paths';
+import type {Post} from '../../lib/contracts';
+let post:Post|null=null,unavailable=false;
+try{post=await loadPublicPost(Astro.params.slug || '');}catch{unavailable=true;}
+Astro.response.headers.set('Cache-Control','no-store');
+if(!post)Astro.response.status=unavailable?503:404;
+const rendered=post?renderMarkdown(post.body):null;
+---
+{post&&rendered?<BlogPost {...post} headings={rendered.headings}><div set:html={rendered.html}/></BlogPost>:<SiteLayout title="这一页暂时找不到 · NeonNexus"><section class="shell panel" style="padding:32px;margin-block:24px"><h1>{unavailable?'文章架暂时没连上':'这一页暂时找不到'}</h1><p>{unavailable?'请稍后再试，文章还在自己的书架上。':'也许它还没有公开，或者已经被收起来了。'}</p><a href={withBase('/blog/')}>← 回到文章架</a></section></SiteLayout>}

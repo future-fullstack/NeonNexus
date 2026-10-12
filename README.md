@@ -1,87 +1,80 @@
-# NeonNexus · 从一篇文章开始
+# NeonNexus · 一篇一篇，慢慢生长
 
-这是一个可以慢慢长大的初版：Astro + Markdown + CSS。首页、文章列表、阅读页和关于页已准备好，留言箱由独立服务保存；没有访客登录或真实密钥权限。原始模板说明保留在 `README-starter.md`。
+北京窗边手帐：四季窗景、当天北京天气、随昼夜变化的白底与黑底、文章日历，还有一个私密的匿名留言箱。
 
-## 写第一篇
+- 博客：[回到窗边](https://39.96.71.56/neonnexus/)
+- 自己的书桌：[写文章与读留言](https://39.96.71.56/neonnexus/admin/)
+- 代码：[公开 GitHub 仓库](https://github.com/future-fullstack/NeonNexus)
 
-真实首文是 `src/content/blog/first-signal.md`，可以直接在这个文件里修改正文。文章就是 Markdown 文本，不必先传到 GitHub；保存后本地预览会更新，正式网址需要重新构建、上传后才更新。目前没有写作后台。
+## 自己发一篇文章
 
-在 `E:\桌面\NeonNexus` 打开终端：
+打开“自己的书桌”，输入单独交付给你的密码。点“写新文章”，填写标题、简介、日期和正文；可以直接粘贴 Markdown，也可以插入图片。文章网址会先给一个默认值，想改时展开“文章网址”，使用英文小写、数字和短横线。
+
+“保存草稿”会留下草稿，只有你能看见。“预览”只看阅读效果，不保存也不发布。准备好后点“发布文章”，首页、文章架、日历、RSS 和 sitemap 随即更新。**不用先上传 GitHub，也不用重新构建网站。**
+
+修改已公开的文章，也可以先“保存草稿”：公开版本保持原样，新的正文和图片先留给自己。“发布修改”才会更新网站上的文章；“收回为草稿”会把文章和附属图片一起收起来。删除文章会收起原网址，已经公开过的内容仍可能被别人保存。编辑时记得保存；登录过期后重新输入密码，当前页面中没保存的文字仍会保留。
+
+网页后台不执行 Markdown 中的原始 HTML 或脚本。标题、引用、列表、表格、代码、链接和图片都可正常使用，预览和正式阅读共用同一个渲染器。图片目前支持 4 MB 以内的 PNG、JPEG、GIF 和 WebP。
+
+第一次打开书桌后，可以在“更换书桌密码”里换成只有你自己知道的密码。密码不放进公开仓库，也不出现在网页地址里。访客导航不会出现管理入口；真正的访问保护由服务器验证密码和登录状态。
+
+## 匿名留言与回执
+
+首页、导航和文章末尾都有留言入口。访客不用注册或留下名字、邮箱，最多写 2000 字。留言只对站主和持有该对话回执的人可见，不在网站上公开展示。
+
+提交后会得到一个私密回执链接，可以复制，也可以下载成文本文件。站主在书桌的留言箱中读信、定向回复；访客以后打开自己的回执就能查看回复并继续留言。**拿到回执链接的人就能读这段对话，请自己保存，不要公开分享。** 丢失后无法按姓名或邮箱找回。早期没有回执的旧留言仍会保留，但无法直接回复对方。
+
+连接失败会保留输入；同一条留言重试沿用提交标识。新留言的邮件通知由服务器独立处理，邮件暂时没发出去不会丢掉已保存的留言。收件地址、邮件凭据和留言数据只在服务器，公开 GitHub 不保存这些信息。
+
+## 前端与后端分别做什么
+
+- `src/` + `astro.config.mjs`：Astro Node 前端。负责窗景、日历、文章阅读、写作界面和回执页面，只通过 JSON API 读写内容。
+- `backend/`：独立内容服务。负责文章、图片、私密对话、登录验证和邮件通知，数据在私有服务器目录。
+- `backend/contracts.md`：两边约定的 API。修改界面不需要改数据库结构；发布一篇文章不需要发布一版代码。
+- `deploy/`：分别运行前端、内容服务和代理的配置。原协作文档地址和原站地址保留。
+
+前端不直接读取数据库，后端不生成网页。公开文章、草稿与私密留言使用各自的接口；文章预览不会把草稿写进公开缓存。未来的解谜和密钥权限还没有实现，`clues/` 仍只保留空目录占位文件。
+
+## 看懂代码的顺序
+
+1. `src/pages/index.astro`：首页，文章列表和日历的数据入口。
+2. `src/lib/content-api.ts` + `src/lib/contracts.ts`：前端如何读取公开文章，以及 JSON 数据长什么样。
+3. `src/pages/blog/` + `src/layouts/BlogPost.astro`：文章架和阅读页。
+4. `src/lib/markdown.ts`：阅读与预览共同使用的安全 Markdown 渲染。
+5. `src/pages/admin/` + `src/components/owner/` + `src/scripts/owner/`：自己的书桌，登录、文章编辑和留言回复分开。
+6. `src/pages/messages.astro` + `src/pages/thread.astro` + 对应 `src/scripts/`：留言与私密回执。
+7. `src/components/BeijingWindow.astro` + `src/scripts/window-journal.ts` + `src/lib/beijing.ts`：窗景、天气与日历；`src/styles/window-journal.css` 管昼夜与四季样式。
+
+`src/consts.ts` 是站名与简介。原来的 `src/content/blog/` 留作初始首文与写作模板的归档，**现在在线文章以内容服务里的数据为准**。初始首文迁移时保留了 `first-signal` 网址和 2026-10-11 日期。两个公开示例已删除，其余英文草稿模板不会自动发布。不要把 Obsidian 库或私人材料复制到公开仓库。
+
+## 本地开发
+
+需要 Node.js 22.12+（生产使用 Node 24）和独立内容服务。只看前端时，服务暂未连接会明确显示文章架没连上，不会伪装成空内容。完整本地测试使用单独的测试数据库，不能连生产数据库。
 
 ```powershell
-Copy-Item src/content/blog/my-first-post.md src/content/blog/hello-world.md
+npm ci
+$env:SITE_BASE = '/neonnexus/'
+$env:NEONNEXUS_API_ORIGIN = 'http://127.0.0.1:8091'
 npm run astro -- dev --background
 ```
 
-用文本编辑器打开 `src/content/blog/hello-world.md`，改标题、简介、日期和正文，将 `visibility: draft` 改为 `visibility: public`，保存后打开 http://localhost:4321/blog/hello-world/ 。文件名决定网址，建议用英文小写和短横线；换文件名会换网址。浏览文章入口是 http://localhost:4321/blog/ 。
-
-```yaml
----
-title: "文章标题"
-description: "一句话简介"
-pubDate: "2026-10-11"
-tags: ["随想"]
-visibility: public
-example: false
----
-这里写正文。
-```
-
-必填：`title`、`description`、`pubDate`。可选：`tags`（默认空）、`updatedDate`（更新日期）、`heroImage`（例如 `/images/photo.jpg`，文件放 `public/images/`）、`example`（是否示例，默认 false）。`visibility` 缺省为 draft；只有明确 public 才发布。目前只公开真实首文，旧英文模板仍在但已设为 draft。
-
-## 预览和检查
+打开 `http://localhost:4321/neonnexus/`；管理页在 `http://localhost:4321/neonnexus/admin/`。内容服务本地启动说明见 `backend/README.md`。
 
 ```powershell
 npm run astro -- dev status
 npm run astro -- dev logs
 npm run astro -- dev stop
-npm run build
 npm run check
 ```
 
-`check` 沿用模板：构建、TypeScript 检查、Cloudflare 打包 dry-run，不会部署。预览服务器仅用于自己的本机，不要把 dev 端口暴露到公网。启动命令支持后台模式，没有弹出的终端窗口。
+`check` 做 Node 服务构建和 TypeScript 检查，不会部署。前端服务产物是 `dist/client/` 和 `dist/server/`，两者一起部署；不能再按旧静态页面上传方式更新文章。`deploy/frontend.Dockerfile` 构建独立前端镜像，部署与回滚说明见 `deploy/README.md`。旧 Cloudflare 模板说明留在 `README-starter.md`，目前运行使用 Node 与 NGINX。
 
-## 看懂骨架的顺序
+## 北京的天气和日子
 
-1. `src/content/blog/my-first-post.md`：文章就是文本和页头字段。
-2. `src/content.config.ts` + `src/lib/posts.ts`：字段检查和统一公开规则。
-3. `src/pages/index.astro` + `src/pages/blog/`：首页、列表、文件名到网址。
-4. `src/layouts/BlogPost.astro` + `src/components/SiteLayout.astro`：文章/整站外壳。
-5. `src/styles/global.css`：颜色、字体与页面样式；`src/consts.ts` 是站名和简介。
+日期、文章日期与日历统一使用 `Asia/Shanghai`。日历以周一开始，小圆点表示当天有公开文章；翻过去的月份只翻文章日历，窗外仍是今天的天气。
 
-站名和简介在 `src/consts.ts`；首页介绍与窗边便签在 `src/pages/index.astro`，详细个人介绍在 `src/pages/about.astro`。原创招牌在 `src/components/PixelSign.astro`，窗边夜景在 `src/components/NightWindow.astro`；颜色与雨景样式在 `src/styles/global.css`，分享图在 `public/social-card.svg`。首页可暂停动态，窗灯与信封只是公开的小交互。不要把 Obsidian 库或私人材料直接复制到项目。
+天气来自 [Open-Meteo Forecast API](https://open-meteo.com/en/docs)，固定北京市中心坐标 39.9042, 116.4074。`current` 是 15 分钟模型天气数据，页面显示它的北京有效时刻。全站按 API 给出的北京日出、日落切换白天白底、夜晚黑底，每分钟和回到页面时检查边界。正常每 30 分钟刷新天气，未连上时明确说明并允许重试，不显示虚构温度；没有有效日出日落数据时按北京时间 06:00–18:00 近似回退。
 
-## 私密留言箱
+视觉约定：3–5 月春、6–8 月夏、9–11 月秋、12–2 月冬。晴、云、雾、雨、雪、雷雨影响窗景；暂停动态和系统减少动态设置都可以停止动画。天气来源与 [CC BY 4.0 许可](https://open-meteo.com/en/licence) 在页面注明。
 
-首页、顶部导航和文章末尾都有留言入口，页面在 `/messages/`。访客不用注册，也不用留下名字或联系方式，最多写 2000 字；留言不在网站上公开展示。提交成功才会清空输入，连接失败会保留正文，方便重试。
-
-页面在 `src/pages/messages.astro`，提交逻辑在 `src/scripts/messages.ts`，样式沿用窗边手帐的昼夜配色。独立留言服务与邮件通知的配置见 `backend/README.md`；收件地址、邮件凭据与留言数据只放在服务器，不放进公开代码或静态网页。
-
-## 北京窗边手帐
-
-首页的窗景由当天北京天气与季节一起决定。日期、日历与文章的日期统一使用 `Asia/Shanghai`；日历以周一开始，小圆点表示该日有公开文章，点日期可打开对应文章。翻过去的月份只翻文章日历，窗外仍是今天的天气。
-
-天气用 [Open-Meteo Forecast API](https://open-meteo.com/en/docs)，固定北京市中心坐标 39.9042, 116.4074。`current` 是 15 分钟模型天气数据，不是气象站实测；页面显示 API 的北京有效时刻。同一次请求带上当天 `daily.sunrise/sunset`，全站按北京当地的日出/日落自动白天白、夜晚黑，每分钟与回到网页时核对边界，避免 30 分钟缓存让日落后的网页继续保持白色。数据未连上时，短时沿用有效 `is_day`，再按北京时间 06:00–18:00 的近似区间回退；这不是天文日出计算，不会伪造天气或温度。
-
-浏览器正常每 30 分钟刷新，失败或过期不展示虚假温度，首页点击 ↻ 可重试。免费 API 用于目前非商业个人小站；来源与 [CC BY 4.0 许可](https://open-meteo.com/en/licence) 已在页面注明。
-
-视觉约定：3–5 月春、6–8 月夏、9–11 月秋、12–2 月冬，不表示专业节气划分。季节与日历跨北京午夜自动刷新，真实天气控制晴/云/雾/雨/雪/雷雨与白昼/夜晚。没有有效天气时只保留季节场景，明确提示未连上。暂停动态和系统减少动态设置都可停止动画。
-
-编辑位置：`src/components/BeijingWindow.astro` 是原创像素窗景；`src/styles/window-journal.css` 管手帐与四季配色；`src/scripts/window-journal.ts` 连接天气和日历；`src/lib/beijing.ts` 放日期、天气码与日历计算。写文章方式和公开规则沿用原骨架。
-
-## 慢慢生长
-
-draft 会从公开内容库、页面、详情、RSS 和 sitemap 排除；它是写作状态，**不是加密或访问权限**。本地源文件、Git 仓库历史、备份仍可能包含正文，所以真正私密的心里话先留在自己的私人库里；`public/` 文件会原样公开，不能放秘密。彩蛋也只是公开的小交互。
-
-将来做权限时，先设计服务端验证/授权与私密内容存储，再接上解谜、密钥和推送。不要通过前端隐藏来保护文章。
-
-## 在线地址和更新
-
-博客地址：[北京窗边手帐](http://39.96.71.56:8080/neonnexus/)。代码在 [公开 GitHub 仓库](https://github.com/future-fullstack/NeonNexus)，`clues/` 是预留的空线索目录；`.gitkeep` 只是让 Git 保存这个目录，没有谜题内容。
-
-线上使用独立 NGINX 容器托管构建后的静态文件，现有协作文档地址 `http://39.96.71.56/` 和原站 `http://39.96.71.56:8080/` 保留。`deploy/README.md` 记录生产构建、服务器目录和回滚方式。日常本地写作仍用上面的本地预览命令；写完需要重新构建、上传，线上不会自动读取本地改动。
-
-生产构建设置真实 `SITE_URL` 与 `SITE_BASE`，启用正确的 canonical/OG、RSS 和 sitemap。原 Cloudflare 配置/部署脚本保留，当前上线使用 NGINX，不需要执行 `npm run deploy`。
-
-参考：[内容集合](https://docs.astro.build/en/guides/content-collections/)、[文件路由](https://docs.astro.build/en/guides/routing/)、[Astro 组件](https://docs.astro.build/en/basics/astro-components/)、[样式](https://docs.astro.build/en/guides/styling/)。
-
+参考：[Astro Node 运行](https://docs.astro.build/en/guides/integrations-guide/node/)、[动态路由](https://docs.astro.build/en/guides/routing/)、[Astro 组件](https://docs.astro.build/en/basics/astro-components/)、[样式](https://docs.astro.build/en/guides/styling/)。

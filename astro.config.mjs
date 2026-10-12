@@ -1,29 +1,24 @@
 // @ts-check
 import { defineConfig } from "astro/config";
-import mdx from "@astrojs/mdx";
-import sitemap from "@astrojs/sitemap";
-
-import cloudflare from "@astrojs/cloudflare";
-import {satteri} from '@astrojs/markdown-satteri';
+import node from '@astrojs/node';
 
 const base=process.env.SITE_BASE || '/';
-const normalizedBase=`${base.replace(/\/$/,'')}/`;
-// Markdown authors can keep root-relative internal links when the site moves.
-/** @type {import('satteri').HastPluginDefinition} */
-const prefixMarkdownLinks={name:'deployment-base-links',element:{filter:['a','img','source','video','audio'],visit(node,context){
-	for(const attribute of ['href','src','poster']){
-		const value=node.properties?.[attribute];
-		if(typeof value==='string'&&value.startsWith('/')&&!value.startsWith('//')&&normalizedBase!=='/'&&!value.startsWith(normalizedBase))context.setProperty(node,attribute,normalizedBase+value.slice(1));
-	}
-}}};
+const apiOrigin=process.env.NEONNEXUS_API_ORIGIN || 'http://127.0.0.1:8091';
 
 // https://astro.build/config
 export default defineConfig({
 	// Set SITE_URL only when a real domain is chosen. No pretend production URL.
 	site: process.env.SITE_URL || undefined,
 	base,
-	markdown: {processor:satteri({hastPlugins:[prefixMarkdownLinks]})},
+	output:'server',
+	session:false,
 	compressHTML: true,
-	integrations: [mdx(), ...(process.env.SITE_URL ? [sitemap()] : [])],
-	adapter: cloudflare(),
+	adapter:node({mode:'standalone',bodySizeLimit:6*1024*1024}),
+	vite:{server:{proxy:{
+		[`${base.replace(/\/$/,'')}/api/`]:{target:apiOrigin,changeOrigin:false},
+		[`${base.replace(/\/$/,'')}/media/`]:{target:apiOrigin,changeOrigin:false},
+		// Astro removes its base before passing development requests to Vite.
+		'/api/':{target:apiOrigin,changeOrigin:false,rewrite:path=>`${base.replace(/\/$/,'')}${path}`},
+		'/media/':{target:apiOrigin,changeOrigin:false,rewrite:path=>`${base.replace(/\/$/,'')}${path}`},
+	}}},
 });

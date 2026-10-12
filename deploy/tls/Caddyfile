@@ -1,0 +1,32 @@
+{
+    # Docmost already owns port 80. This edge must never listen there.
+    auto_https disable_redirects
+    # Browsers and curl commonly omit SNI when connecting to an IP literal.
+    default_sni 39.96.71.56
+    admin off
+}
+
+https://39.96.71.56 {
+    tls {
+        issuer acme {
+            dir https://acme-v02.api.letsencrypt.org/directory
+            profile shortlived
+            disable_http_challenge
+        }
+    }
+
+    header X-Content-Type-Options nosniff
+    # Private receipt secrets are fragment values and never enter proxy logs.
+    header Referrer-Policy no-referrer
+
+    @blog path /neonnexus /neonnexus/*
+    handle @blog {
+        reverse_proxy neonnexus-blog:81 {
+            header_up X-Forwarded-Proto https
+            header_up X-Real-IP {remote_host}
+        }
+    }
+    handle {
+        redir * /neonnexus/ 302
+    }
+}

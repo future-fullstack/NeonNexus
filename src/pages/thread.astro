@@ -1,0 +1,19 @@
+---
+import SiteLayout from '../components/SiteLayout.astro';
+import {withBase} from '../lib/paths';
+import '../styles/conversation.css';
+Astro.response.headers.set('Cache-Control','no-store');
+Astro.response.headers.set('X-Robots-Tag','noindex, nofollow');
+---
+<SiteLayout title="回到这段对话 · NeonNexus" description="拿着自己的回执，回来看看这段私密对话。">
+  <section class="message-page shell"><a class="back-link" href={withBase('/')}>← 回到窗边</a>
+    <div class="message-letter thread-letter"><p class="message-kicker">只属于这张回执的对话</p><h1>继续聊聊</h1><p class="message-privacy">你不用告诉我你是谁。这里只显示这张回执对应的留言和回复。</p>
+      <p data-thread-status role="status" aria-live="polite">正在打开这张回执…</p>
+      <div class="thread-messages" data-thread-messages></div>
+      <button type="button" data-thread-refresh hidden>看看有没有新回复</button>
+      <form data-thread-form method="post" hidden><label class="message-label" for="thread-message">再留几句话</label><textarea id="thread-message" name="message" rows="5" maxlength="2000" required data-thread-input></textarea><div class="message-submit-row"><span>最多 2000 字</span><button class="message-submit" data-thread-submit type="submit">把话留在这里 →</button></div></form>
+      <p class="receipt-note">回执链接就是这段对话的钥匙。请自己保存，别公开分享；丢失后无法找回。</p>
+    </div>
+  </section>
+</SiteLayout>
+<script>import '../scripts/thread';</script>

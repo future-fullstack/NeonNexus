@@ -4,7 +4,7 @@ import { z } from "astro/zod";
 
 // Only public entries enter Astro's content store. This also keeps draft bodies
 // out of a future server bundle; page-level filtering alone is insufficient.
-const files = glob({ base: "./src/content/blog", pattern: "**/*.{md,mdx}", deferRender: true });
+const files = glob({ base: "./src/content/blog", pattern: "**/*.md", deferRender: true });
 const publishedFiles = {
 	name: "public-blog-files",
 	async load(context: Parameters<typeof files.load>[0]) {

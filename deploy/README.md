@@ -1,56 +1,34 @@
-# NGINX 发布记录
+# 独立前端、数据服务与 HTTPS 发布
 
-博客：https://github.com/future-fullstack/NeonNexus  
-线上：http://39.96.71.56:8080/neonnexus/
+正式入口：https://39.96.71.56/neonnexus/ 。旧 `http://39.96.71.56:8080/neonnexus/` 重定向到 HTTPS；协作文档 `http://39.96.71.56/` 与原站 `http://39.96.71.56:8080/` 保持。
 
-## 生产构建
+## 组件
 
-本机预览默认使用根路径。正式服务器使用 `/neonnexus/`，构建时必须同时设置真实站点和前缀：
+- `neonnexus-web`：Astro Node SSR，内部 4321；从内容 API 即时读取已发布快照，网页后台与匿名回执也是前端页面。
+- `neonnexus-messages`：Python JSON API，内部 8091；私有 SQLite、图片、认证文件和 SMTP outbox 位于 `/opt/neonnexus-messages/data`。
+- `neonnexus-blog`：NGINX 内部网关。80 只把博客 HTTP 重定向到 HTTPS；81 接受 Caddy 的 HTTPS 流量，硬编码可信 HTTPS 标识后代理 API、媒体与前端，不映射到公网。
+- `neonnexus-tls`：独立 Caddy 443，CA 信任的短期 IP 证书与自动续期，详细配置在 `tls/`；不监听 80，不添加可能影响同 IP 协作文档的 HSTS。
 
-```powershell
-$env:SITE_URL = 'http://39.96.71.56:8080'
-$env:SITE_BASE = '/neonnexus/'
-npm run check
-Remove-Item Env:SITE_URL, Env:SITE_BASE
-```
+所有应用服务加入已有 `docmost_default`，不修改协作文档容器。前置 `docmost-nginx-1` 的原根路由保持。API 禁止访问日志，private auth/media 数据不挂载到公开网页目录。
 
-带上述前缀构建后，公开网页位于 `dist/client/neonnexus/`，上传包保留这一层 `neonnexus/`，解包到版本目录后应是 `<版本>/neonnexus/index.html`。NGINX 仅接收这些公开静态文件；不要再额外套一层 `neonnexus/`，也不要上传 `dist/server/`、源码、`.env`、Git 历史或 Obsidian 文件。Cloudflare 的 `wrangler.json`、`_headers`、`.assetsignore`、`_worker.js` 不参与此部署，需要从上传包中剔除。
+## 构建与服务更新
 
-## 服务器结构
+前端源代码构建使用 `deploy/frontend.Dockerfile`。构建参数 `SITE_URL=https://39.96.71.56`、`SITE_BASE=/neonnexus/`；将检查通过的 `dist/`、package 与 lock 冻结上传到 `/opt/neonnexus-web`，把 `deploy/frontend-runtime.Dockerfile` 保存为该目录的 `Dockerfile`，Compose 只打包这个正式产物。程序目录权限 755、文件 644，镜像复制时显式归 Node 运行用户，避免私有备份的 umask 077 让程序无法读取；这些权限只用于程序包，不用于凭证、媒体或数据库。运行环境 `NEONNEXUS_API_ORIGIN=http://neonnexus-messages:8091`。打包时排除 `.git`、`.astro`、`node_modules`、backend、数据库、凭证与环境文件。
 
-- `/opt/neonnexus/releases/<版本>/neonnexus/`：一次完整的静态构建。
-- `/opt/neonnexus/current`：指向当前版本的符号链接。
-- `/opt/neonnexus/nginx.conf` 与 `compose.yml`：独立博客 NGINX。
-- `/opt/neonnexus/backups/`：上线前的前置代理配置及原站校验值。
+Python build context 在 `/opt/neonnexus-messages/backend`，仅复制程序文件；真实环境文件 `/opt/neonnexus-messages/service.env` 权限 600，唯一允许的生产 Origin 是 `https://39.96.71.56`。Compose 使用 `env_file.format: raw`，避免改变密码中的特殊字符。
 
-新容器 `neonnexus-blog` 只加入已有 `docmost_default` 网络，没有新增公网端口。前置代理仍是 `docmost-nginx-1`，`/opt/docmost/nginx.conf` 的原根站配置保留，只增加博客专属 location。反代保留 `/neonnexus/` 前缀，博客发布目录也使用这个前缀。
+发布文章不执行这些部署操作：点击网页后台发布后，公开文章、RSS、日历和媒体权限读取同一发布快照。部署只用于修改前端或后端程序。
 
-协作文档 `http://39.96.71.56/` 的容器、端口和配置没有修改。原站 `http://39.96.71.56:8080/` 的文件和原根路由没有修改。
+## 首次 CMS 迁移
 
-## 更新与回滚
+1. 在线备份原 SQLite，并保存现有 NGINX 配置、Compose 与镜像标识；不要读取或输出来访者正文、SMTP 配置、密码或回执凭证。
+2. 新后端以事务执行幂等迁移，旧消息与 outbox 保留。只从已经公开的 `first-signal.md` 一次性导入真实首文；不导入草稿模板或已删除示例。重复导入保留现有文章。
+3. 初始化随机站主密码，将输出直接重定向到私有文件，再通过 SSH 交接到本机受限登录信息文件。不能把初始密码写到 Git、正文、URL 或聊天。
+4. 新 API/SSR 在 Docker 网络内部通过检查后，替换网关配置，先 `nginx -t` 再 reload。内部 81 不映射 host，旧 80 博客路径全部 HTTPS redirect，包含旧精确留言 API 路由。
+5. 公网使用系统正常 CA 校验访问 HTTPS，检查后台登录、保存/预览/发布/撤回/删除、私密图片、匿名取信与回复，同时复查原来的两个站点。正式投递只使用明确标注的验收文字，不读取其他访客留言。
 
-先在新版本目录解包并检查首页、文章、字体及 RSS，然后用新符号链接原子替换 `current`。两个版本目录都保留；后续文章更新只替换静态版本，不必重启协作文档或前置代理。源码提交与线上版本编号应对应。
+## 备份与回滚
 
-```sh
-# 更新前记下旧版本目录，替换链接只发生在 /opt/neonnexus。
-readlink /opt/neonnexus/current
-ln -s releases/<新版本> /opt/neonnexus/current.next
-mv -Tf /opt/neonnexus/current.next /opt/neonnexus/current
-docker exec neonnexus-blog nginx -t
-```
+SQLite 使用 `manage.py backup` 在线备份，同时单独保存媒体目录与 `owner-auth.json`；全部备份位于私有目录。前端更新出错可以恢复上一前端镜像，但旧静态站只适合作为临时展示，不能作为新文章数据库的真实来源。
 
-文章更新出现问题时，把上述新版本换成旧版本即可。首次上线没有更早的博客版本；要撤销整个首次上线，恢复 `/opt/neonnexus/backups/front-nginx-before-neonnexus.conf` 到 `/opt/docmost/nginx.conf`，先运行 `docker exec docmost-nginx-1 nginx -t` 再 reload，然后停止 `neonnexus-blog`。只操作本博客新增的容器，不删除现有文档或原站。
-
-每次更新后检查博客首页、文章深链、RSS、未知文章 404，并复查原来的两个地址。公开 GitHub 中的 draft 源文仍可被阅读，真正私密的文章不能提交到此仓库。
-
-## 私人留言箱发布顺序
-
-这部分是新增服务的部署步骤，不表示它已上线。服务源码与操作说明在 `backend/`。
-
-1. 先保存两个现有站点的响应校验值，并备份当前前置配置和博客配置。不要用首次上线前的旧备份覆盖现在的原站配置。
-2. 创建 `/opt/neonnexus-messages`，复制 `backend/` 与 `messages.compose.yml`。把真实 SMTP 设置、固定站主收件人和 `ALLOWED_ORIGINS=http://39.96.71.56:8080` 只写入服务器 `service.env`，权限 600。目录权限 700；数据目录归容器用户 `10001:10001`，权限 700。SMTP 通道只能使用 SSL 或 STARTTLS。已有协作文档 SMTP 设置可以读取复用，不能修改原服务的环境或密码。Compose 使用 `env_file.format: raw` 保留密码中的特殊字符，需 Compose 2.30 或更新版本（部署机已验证 5.4）。
-3. 用 `docker compose -f /opt/neonnexus-messages/messages.compose.yml up -d --build` 启动服务，先确认数据可写、后台工作正常。它加入 `docmost_default` 网络，不增加公网端口。
-4. 服务存在后，把本仓库 `nginx.conf` 应用到独立博客 NGINX；把 `front-proxy-location.conf` 的精确 API location 加入当前前置配置，保留现有博客路由和根站路由。先 `nginx -t`，通过才 reload；失败恢复本次备份。代理 API 的内外两层都关闭访问日志并限制请求体到 12k；外层重新设置真实地址，内层才将该地址交给内存限流。
-5. 最后切换通过检查的静态版本，让留言按钮与接口同时可用。验证真实网站提交、相同回执重试、非法来源、超长内容，以及 GET 私人数据路径均不可读取。真实验收留言需明确标注测试且只发站主配置邮箱；只检查回执、保存数量、通知状态，避免读取已有私人正文。
-
-SMTP 接受表示服务器成功交给邮件服务商，不等于站主收件箱已收到。发信异常时留言仍保留，`manage.py status` 可查看待重试数量。回滚静态页面或 API 配置时保留留言数据；不要删除数据目录或恢复旧数据库覆盖新留言。
+数据库迁移后优先前向修复；不能直接把旧 SQLite 覆盖当前数据而丢失新留言，也不能盲目切回未适配新 schema 的后端。配置失败先恢复本次配置备份并重新 `nginx -t`；原协作文档与原站容器不重启、不删数据、不换地址。短期 TLS 证书数据持久保留，由 Caddy 自动续期，不手动删除或重新签发代替故障修复。

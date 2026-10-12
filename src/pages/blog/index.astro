@@ -4,7 +4,10 @@ import SiteLayout from '../../components/SiteLayout.astro';
 import PostCard from '../../components/PostCard.astro';
 import { getPublicPosts } from '../../lib/posts';
 import { SITE_TITLE } from '../../consts';
-const posts = await getPublicPosts();
+import type {PostSummary} from '../../lib/contracts';
+let posts:PostSummary[]=[],contentError='';
+try{posts=await getPublicPosts();}catch{contentError='文章架暂时没连上，稍后再来翻翻吧。';Astro.response.status=503;}
+Astro.response.headers.set('Cache-Control','no-store');
 ---
 
 <SiteLayout title={`文章 · ${SITE_TITLE}`} description="这个小站慢慢积累的文字。">
@@ -12,7 +15,7 @@ const posts = await getPublicPosts();
 		<section class="archive-room" aria-labelledby="archive-title">
 			<div class="archive-bar"><span class="mono">THE READING ROOM</span><span class="mono">{String(posts.length).padStart(2, '0')} ENTRIES</span></div>
 			<header class="archive-intro"><h1 id="archive-title">文章架</h1><p>雨还在下。挑一篇，坐一会儿。</p></header>
-			{posts.length ? <div class="post-list">{posts.map((post, index) => <PostCard post={post} index={index} />)}</div> : <p class="empty-state">第一篇文章还在路上。这一格，先留空。</p>}
+			{contentError?<p class="empty-state">{contentError}</p>:posts.length ? <div class="post-list">{posts.map((post, index) => <PostCard post={post} index={index} />)}</div> : <p class="empty-state">第一篇文章还在路上。这一格，先留空。</p>}
 			<div class="archive-end"><a href={withBase('/')}>← 回到小站</a><a href={withBase('/rss.xml')}>RSS 订阅 ↗</a></div>
 		</section>
 	</div>

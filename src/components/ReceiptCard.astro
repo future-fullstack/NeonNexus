@@ -1,0 +1,13 @@
+---
+import {withBase} from '../lib/paths';
+import '../styles/conversation.css';
+---
+<section class="receipt-card" data-receipt-card hidden aria-labelledby="receipt-title">
+  <h2 id="receipt-title">给你一张回执</h2>
+  <p>我只能把回复放在这张回执里。保存这个私密链接，以后回来查看，也可以继续聊。</p>
+  <label for="receipt-link">你的回执链接</label>
+  <input id="receipt-link" type="text" readonly data-receipt-link autocomplete="off" spellcheck="false" />
+  <div class="receipt-actions"><button type="button" data-receipt-copy>复制链接</button><button type="button" data-receipt-download>下载回执</button><a href={withBase('/thread/')} data-receipt-open>打开这段对话 →</a></div>
+  <p class="receipt-note">拿到链接的人就能读这段对话。请自己保存，别公开分享。丢失后无法按姓名或邮箱找回。</p>
+  <p role="status" aria-live="polite" data-receipt-status></p>
+</section>

@@ -2,6 +2,8 @@
 import SiteLayout from '../components/SiteLayout.astro';
 import {withBase} from '../lib/paths';
 import {SITE_TITLE} from '../consts';
+import ReceiptCard from '../components/ReceiptCard.astro';
+Astro.response.headers.set('Cache-Control','no-store');
 ---
 <SiteLayout title={`留几句话 · ${SITE_TITLE}`} description="不用注册，也不用留下名字。写几句话，放进这扇窗的留言箱。">
   <section class="message-page shell" aria-labelledby="message-title">
@@ -11,7 +13,7 @@ import {SITE_TITLE} from '../consts';
       <p class="message-kicker">留给这扇窗的主人</p>
       <h1 id="message-title">你有什么想说的？</h1>
       <p class="message-intro">关于学术，关于人生，或者一个还没想明白的问题。<br/>写下来吧，我会认真看。</p>
-      <p class="message-privacy" id="message-privacy">留言只对我可见，不会公开。不用注册或留下名字。</p>
+      <p class="message-privacy" id="message-privacy">留言只对我可见，不会公开。不用注册或留下名字。送出后会拿到私密回执，可以回来看看我的回复。</p>
       <form data-message-form action={withBase('/api/messages')} method="post">
         <label class="message-label" for="message-text">你的留言</label>
         <textarea id="message-text" name="message" maxlength="2000" rows="8" required placeholder="从你现在最想说的一句话开始。" aria-describedby="message-privacy message-count" data-message-input></textarea>
@@ -20,10 +22,11 @@ import {SITE_TITLE} from '../consts';
         <p class="message-status" data-message-status role="status" aria-live="polite"></p>
         <noscript><p class="message-status">这个留言箱需要 JavaScript。开启后可以提交，写下的内容不会公开展示。</p></noscript>
       </form>
+      <ReceiptCard/>
       <p class="message-letter-foot">谢谢你愿意停下来，说几句话。</p>
     </div>
   </section>
 </SiteLayout>
 <script>
-  import '../scripts/messages';
+  import '../scripts/new-message';
 </script>

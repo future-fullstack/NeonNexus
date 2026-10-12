@@ -1,10 +1,36 @@
 services:
+  web:
+    build:
+      context: /opt/neonnexus-web
+      dockerfile: Dockerfile
+      args:
+        SITE_URL: https://39.96.71.56
+        SITE_BASE: /neonnexus/
+    image: neonnexus-web:local
+    container_name: neonnexus-web
+    restart: unless-stopped
+    environment:
+      NODE_ENV: production
+      HOST: 0.0.0.0
+      PORT: 4321
+      SITE_URL: https://39.96.71.56
+      NEONNEXUS_API_ORIGIN: http://neonnexus-messages:8091
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 384m
+    pids_limit: 128
+    networks:
+      - docmost_default
   blog:
     image: nginx:alpine
     container_name: neonnexus-blog
     restart: unless-stopped
     volumes:
-      - /opt/neonnexus:/srv/neonnexus:ro
       - /opt/neonnexus/nginx.conf:/etc/nginx/conf.d/default.conf:ro
     networks:
       - docmost_default
