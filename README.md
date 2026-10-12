@@ -45,7 +45,7 @@
 6. `src/pages/messages.astro` + `src/pages/thread.astro` + 对应 `src/scripts/`：留言与私密回执。
 7. `src/components/BeijingWindow.astro` + `src/scripts/window-journal.ts` + `src/lib/beijing.ts`：窗景、天气与日历；`src/styles/window-journal.css` 管昼夜与四季样式。
 
-`src/consts.ts` 是站名与简介。原来的 `src/content/blog/` 留作初始首文与写作模板的归档，**现在在线文章以内容服务里的数据为准**。初始首文迁移时保留了 `first-signal` 网址和 2026-10-11 日期。两个公开示例已删除，其余英文草稿模板不会自动发布。不要把 Obsidian 库或私人材料复制到公开仓库。
+`src/consts.ts` 是站名与简介。`src/content/blog/first-signal.md` 保留初始首文，原模板说明、草稿写作素材和示例图片集中在 `docs/template/`，只作参考，**现在在线文章以内容服务里的数据为准**。初始首文迁移时保留了 `first-signal` 网址和 2026-10-11 日期。两个公开示例已删除，归档模板不会自动发布。不要把 Obsidian 库或私人材料复制到公开仓库。
 
 ## 本地开发
 
@@ -67,7 +67,7 @@ npm run astro -- dev stop
 npm run check
 ```
 
-`check` 做 Node 服务构建和 TypeScript 检查，不会部署。前端服务产物是 `dist/client/` 和 `dist/server/`，两者一起部署；不能再按旧静态页面上传方式更新文章。`deploy/frontend.Dockerfile` 构建独立前端镜像，部署与回滚说明见 `deploy/README.md`。旧 Cloudflare 模板说明留在 `README-starter.md`，目前运行使用 Node 与 NGINX。
+`check` 做 Node 服务构建和 TypeScript 检查，不会部署。前端服务产物是 `dist/client/` 和 `dist/server/`，两者一起部署；不能再按旧静态页面上传方式更新文章。`deploy/frontend.Dockerfile` 构建独立前端镜像，部署与回滚说明见 `deploy/README.md`。旧模板说明留在 `docs/template/README-starter.md`，目前运行使用 Node 与 NGINX。
 
 ## 北京的天气和日子
 
