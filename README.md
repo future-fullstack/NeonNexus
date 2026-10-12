@@ -27,7 +27,7 @@ example: false
 这里写正文。
 ```
 
-必填：`title`、`description`、`pubDate`。可选：`tags`（默认空）、`updatedDate`（更新日期）、`heroImage`（例如 `/images/photo.jpg`，文件放 `public/images/`）、`example`（是否示例，默认 false）。`visibility` 缺省为 draft；只有明确 public 才发布。真实首文已去掉示例标识，另外两篇中文示例保留供参考，旧英文模板仍在但已设为 draft。
+必填：`title`、`description`、`pubDate`。可选：`tags`（默认空）、`updatedDate`（更新日期）、`heroImage`（例如 `/images/photo.jpg`，文件放 `public/images/`）、`example`（是否示例，默认 false）。`visibility` 缺省为 draft；只有明确 public 才发布。目前只公开真实首文，旧英文模板仍在但已设为 draft。
 
 ## 预览和检查
 
