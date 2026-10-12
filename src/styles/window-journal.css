@@ -224,3 +224,33 @@ body[data-day] .envelope-note{border-color:var(--paper-divider);}
 body[data-day]:has(.window-journal) .site-toolbar{background:transparent;box-shadow:none;}
 html:has(body[data-day='day']){color-scheme:light;background:#faf9f5;}
 html:has(body[data-day='night']){color-scheme:dark;background:#080b0d;}
+
+/* A private letter uses the same paper and light as the rest of the desk. */
+.welcome-note-links{display:flex;gap:18px;flex-wrap:wrap;}
+body[data-day] .site-toolbar{flex-wrap:wrap;}
+.article-message-link{display:block;margin:14px 0;}
+.message-page{padding-top:30px;padding-bottom:50px;}
+.message-letter{position:relative;max-width:690px;margin:30px auto 0;padding:38px 42px;background:var(--sheet);color:var(--sheet-ink);border:1px solid var(--paper-divider);box-shadow:3px 4px 0 var(--paper-back),5px 6px 0 var(--paper-edge);}
+.message-letter::before{content:'';position:absolute;top:-10px;left:43%;width:72px;height:21px;background:#a9b3a578;transform:rotate(-5deg);}
+.message-letter-pin{position:absolute;top:21px;right:28px;color:var(--warm);font-size:25px;}
+.message-kicker{margin:0 0 13px;color:var(--sheet-muted);font-size:12px;letter-spacing:.12em;}
+.message-letter h1{margin:0 0 21px;font-size:28px;line-height:1.5;font-weight:500;padding-right:28px;}
+.message-intro{font-size:16px;line-height:1.95;margin:0 0 18px;}
+.message-privacy{font-size:14px;line-height:1.9;color:var(--sheet-muted);margin:0 0 28px;}
+.message-label{display:block;margin-bottom:10px;font-size:14px;}
+.message-letter textarea{display:block;width:100%;box-sizing:border-box;resize:vertical;min-height:190px;padding:15px 17px;border:1px solid var(--paper-divider);border-radius:2px;background:var(--surface-deep);color:var(--sheet-ink);font:inherit;font-size:16px;line-height:1.9;}
+.message-letter textarea::placeholder{color:var(--sheet-muted);opacity:1;}
+.message-letter textarea:focus-visible{outline:2px solid var(--sheet-link);outline-offset:3px;}
+.message-honeypot{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden;}
+.message-submit-row{display:flex;justify-content:space-between;align-items:center;gap:16px;margin-top:16px;}
+.message-count{font-family:var(--mono);font-size:12px;color:var(--sheet-muted);white-space:nowrap;}
+.message-submit{border:1px solid var(--sheet-link);padding:10px 17px;background:var(--sheet-link);color:var(--bg);font:inherit;font-size:14px;cursor:pointer;line-height:1.7;}
+.message-submit:hover{background:var(--sheet-hover);border-color:var(--sheet-hover);}
+.message-submit:focus-visible{outline:2px solid var(--sheet-link);outline-offset:4px;}
+.message-submit:disabled{cursor:wait;background:var(--surface-deep);color:var(--sheet-muted);border-color:var(--paper-divider);}
+.message-status{min-height:27px;margin:18px 0 0;font-size:14px;line-height:1.9;color:var(--sheet-muted);overflow-wrap:anywhere;}
+.message-status[data-state='success']{color:var(--sheet-link);}
+.message-status[data-state='error']{color:var(--warm);}
+.message-letter-foot{margin:18px 0 0;border-top:1px dashed var(--paper-divider);padding-top:18px;color:var(--sheet-muted);font-size:13px;line-height:1.9;}
+@media(max-width:650px){.message-page{padding-top:22px;}.message-letter{padding:28px 21px;margin-top:26px;}.message-letter h1{font-size:23px;}.message-letter-pin{right:19px;top:20px;font-size:22px;}.message-submit-row{gap:10px;flex-wrap:wrap;}.message-submit{padding-inline:12px;}.message-intro br{display:none;}}
+@media(max-width:420px){body[data-day] .site-toolbar nav{gap:10px;}}

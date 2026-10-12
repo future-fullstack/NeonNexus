@@ -207,3 +207,11 @@ foldericon.ico
 screenshots/
 test-results/
 playwright-report/
+
+### Private message service data and local Python runtime ###
+__pycache__/
+*.py[cod]
+*.sqlite*
+backend/service.env
+backend/*.env
+!backend/service.env.example

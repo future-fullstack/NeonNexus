@@ -1,8 +1,10 @@
 # NeonNexus · 从一篇文章开始
 
-这是一个可以慢慢长大的初版：Astro + Markdown + CSS。首页、文章列表、阅读页和关于页已准备好；没有数据库、登录或真实密钥权限。原始模板说明保留在 `README-starter.md`。
+这是一个可以慢慢长大的初版：Astro + Markdown + CSS。首页、文章列表、阅读页和关于页已准备好，留言箱由独立服务保存；没有访客登录或真实密钥权限。原始模板说明保留在 `README-starter.md`。
 
 ## 写第一篇
+
+真实首文是 `src/content/blog/first-signal.md`，可以直接在这个文件里修改正文。文章就是 Markdown 文本，不必先传到 GitHub；保存后本地预览会更新，正式网址需要重新构建、上传后才更新。目前没有写作后台。
 
 在 `E:\桌面\NeonNexus` 打开终端：
 
@@ -25,7 +27,7 @@ example: false
 这里写正文。
 ```
 
-必填：`title`、`description`、`pubDate`。可选：`tags`（默认空）、`updatedDate`（更新日期）、`heroImage`（例如 `/images/photo.jpg`，文件放 `public/images/`）、`example`（是否示例，默认 false）。`visibility` 缺省为 draft；只有明确 public 才发布。三篇中文示例均有示例标识，旧英文模板仍在但已设为 draft。
+必填：`title`、`description`、`pubDate`。可选：`tags`（默认空）、`updatedDate`（更新日期）、`heroImage`（例如 `/images/photo.jpg`，文件放 `public/images/`）、`example`（是否示例，默认 false）。`visibility` 缺省为 draft；只有明确 public 才发布。真实首文已去掉示例标识，另外两篇中文示例保留供参考，旧英文模板仍在但已设为 draft。
 
 ## 预览和检查
 
@@ -48,6 +50,12 @@ npm run check
 5. `src/styles/global.css`：颜色、字体与页面样式；`src/consts.ts` 是站名和简介。
 
 站名和简介在 `src/consts.ts`；首页介绍与窗边便签在 `src/pages/index.astro`，详细个人介绍在 `src/pages/about.astro`。原创招牌在 `src/components/PixelSign.astro`，窗边夜景在 `src/components/NightWindow.astro`；颜色与雨景样式在 `src/styles/global.css`，分享图在 `public/social-card.svg`。首页可暂停动态，窗灯与信封只是公开的小交互。不要把 Obsidian 库或私人材料直接复制到项目。
+
+## 私密留言箱
+
+首页、顶部导航和文章末尾都有留言入口，页面在 `/messages/`。访客不用注册，也不用留下名字或联系方式，最多写 2000 字；留言不在网站上公开展示。提交成功才会清空输入，连接失败会保留正文，方便重试。
+
+页面在 `src/pages/messages.astro`，提交逻辑在 `src/scripts/messages.ts`，样式沿用窗边手帐的昼夜配色。独立留言服务与邮件通知的配置见 `backend/README.md`；收件地址、邮件凭据与留言数据只放在服务器，不放进公开代码或静态网页。
 
 ## 北京窗边手帐
 

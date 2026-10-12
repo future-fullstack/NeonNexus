@@ -1,0 +1,26 @@
+services:
+  messages:
+    build: /opt/neonnexus-messages/backend
+    image: neonnexus-messages:local
+    container_name: neonnexus-messages
+    restart: unless-stopped
+    env_file:
+      - path: /opt/neonnexus-messages/service.env
+        format: raw
+    volumes:
+      - /opt/neonnexus-messages/data:/data
+    read_only: true
+    tmpfs:
+      - /tmp
+    cap_drop:
+      - ALL
+    security_opt:
+      - no-new-privileges:true
+    mem_limit: 128m
+    pids_limit: 128
+    networks:
+      - docmost_default
+
+networks:
+  docmost_default:
+    external: true
