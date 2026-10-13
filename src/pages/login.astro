@@ -1,0 +1,13 @@
+---
+import SiteLayout from '../components/SiteLayout.astro';
+import LoginPanel from '../components/owner/LoginPanel.astro';
+import GateNotice from '../components/owner/GateNotice.astro';
+import '../styles/owner.css';
+const session=Astro.locals.ownerSession;
+const anonymous=session?.state==='anonymous';
+if(!anonymous)Astro.response.status=session?.state==='insecure'?403:503;
+---
+<SiteLayout title="回到自己的书桌 · NeonNexus" description="只有这扇窗的主人可以打开的书桌。">
+  <div class="owner-page shell">{anonymous?<LoginPanel/>:<GateNotice insecure={session?.state==='insecure'}/>}</div>
+</SiteLayout>
+<script>import '../scripts/owner/login-page';</script>

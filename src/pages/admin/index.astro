@@ -1,16 +1,28 @@
 ---
 import SiteLayout from '../../components/SiteLayout.astro';
 import LoginPanel from '../../components/owner/LoginPanel.astro';
+import GateNotice from '../../components/owner/GateNotice.astro';
 import PostEditor from '../../components/owner/PostEditor.astro';
 import InboxPanel from '../../components/owner/InboxPanel.astro';
 import '../../styles/owner.css';
 import '../../styles/conversation.css';
-const local=['localhost','127.0.0.1','[::1]'].includes(Astro.url.hostname);
-const secure=local || Astro.url.protocol==='https:' || Astro.request.headers.get('x-forwarded-proto')==='https';
-Astro.response.headers.set('Cache-Control','no-store');Astro.response.headers.set('X-Robots-Tag','noindex, nofollow');
-if(!secure)Astro.response.status=403;
+const session=Astro.locals.ownerSession;
+const authorized=session?.state==='authenticated';
+if(!authorized)Astro.response.status=session?.state==='insecure'?403:503;
 ---
-<SiteLayout title="自己的书桌 · NeonNexus" description="写文章，也认真读那些留给你的话。"><div class="owner-page shell">
-  {secure?<><p data-owner-status class="owner-status" role="status" aria-live="polite">正在打开书桌…</p><LoginPanel/><div data-owner-workbench hidden><header class="owner-toolbar"><h1>自己的书桌</h1><div><button type="button" data-owner-tab="posts" aria-pressed="true">文章</button><button type="button" data-owner-tab="inbox" aria-pressed="false">留言箱</button><button type="button" data-owner-logout>退出</button></div></header><details class="owner-password-panel"><summary>更换书桌密码</summary><p>更换后会退出书桌，请先保存正在写的文章。</p><form data-owner-password-form method="post"><label for="owner-current-password">现在的密码</label><input id="owner-current-password" name="currentPassword" type="password" autocomplete="current-password" required/><label for="owner-new-password">新密码</label><input id="owner-new-password" name="password" type="password" autocomplete="new-password" minlength="12" required/><p class="owner-small-note">至少 12 个字符，选择只有你自己知道的密码。</p><button type="submit">更换密码</button></form></details><PostEditor/><InboxPanel/></div></>:<section class="panel owner-login"><h1>请从安全的地址打开书桌</h1><p>使用 HTTPS 博客地址后，再来到这一页。</p></section>}
-</div></SiteLayout>
+<SiteLayout title="自己的书桌 · NeonNexus" description="写文章，也认真读那些留给你的话。">
+  <div class="owner-page shell">
+    {authorized?<>
+      <p data-owner-status class="owner-status" role="status" aria-live="polite">正在打开书桌…</p>
+      {import.meta.env.DEV&&<p class="owner-small-note">本地调试入口 · 这一轮修改还没有上线。</p>}
+      <section class="panel owner-connection" data-owner-connection hidden><h2>书桌暂时没连上</h2><p>当前页面里的文字还在，稍后可以继续写。</p><button type="button" data-owner-retry>重新连接</button></section>
+      <div data-owner-workbench>
+        <header class="owner-toolbar"><h1>自己的书桌</h1><div><button type="button" data-owner-tab="posts" aria-pressed="true">文章</button><button type="button" data-owner-tab="inbox" aria-pressed="false">留言箱</button><button type="button" data-owner-logout>退出</button></div></header>
+        <details class="owner-password-panel"><summary>更换书桌密码</summary><p>更换后会退出书桌，请先保存正在写的文章。</p><form data-owner-password-form method="post"><label for="owner-current-password">现在的密码</label><input id="owner-current-password" name="currentPassword" type="password" autocomplete="current-password" required/><label for="owner-new-password">新密码</label><input id="owner-new-password" name="password" type="password" autocomplete="new-password" minlength="12" required/><p class="owner-small-note">至少 12 个字符，选择只有你自己知道的密码。</p><button type="submit">更换密码</button></form></details>
+        <PostEditor/><InboxPanel/>
+      </div>
+      <dialog class="owner-reauth" data-owner-reauth aria-label="重新打开自己的书桌"><p>刚才没保存的文字还在。重新输入密码，就能接着写。</p><LoginPanel/></dialog>
+    </>:<GateNotice insecure={session?.state==='insecure'}/>}
+  </div>
+</SiteLayout>
 <script>import '../../scripts/owner/main';</script>

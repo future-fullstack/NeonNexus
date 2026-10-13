@@ -6,11 +6,17 @@
 - 自己的书桌：[写文章与读留言](https://39.96.71.56/neonnexus/admin/)
 - 代码：[公开 GitHub 仓库](https://github.com/future-fullstack/NeonNexus)
 
+本轮新增的专属登录页、服务端控制台访问保护和实时分屏预览**只在本地完成，尚未上线**。线上仍运行上一版。以下新的登录与预览说明，先用于本机体验。
+
 ## 自己发一篇文章
 
-打开“自己的书桌”，输入单独交付给你的密码。点“写新文章”，填写标题、简介、日期和正文；可以直接粘贴 Markdown，也可以插入图片。文章网址会先给一个默认值，想改时展开“文章网址”，使用英文小写、数字和短横线。
+先打开专属登录页 `/neonnexus/login/`，输入单独交付给你的密码，登录后进入“自己的书桌”。未登录或会话过期时，服务器先检查登录状态，不会直接发送编辑器和私密留言面板的页面；内容服务仍独立保护每个私密接口。
 
-“保存草稿”会留下草稿，只有你能看见。“预览”只看阅读效果，不保存也不发布。准备好后点“发布文章”，首页、文章架、日历、RSS 和 sitemap 随即更新。**不用先上传 GitHub，也不用重新构建网站。**
+点“写新文章”，填写标题、简介、日期和正文；可以直接粘贴 Markdown，也可以插入图片。文章网址会先给一个默认值，想改时展开“文章网址”，使用英文小写、数字和短横线。
+
+电脑上左边写正文，右边的阅读预览会在你停笔片刻后自动更新；手机上用“编辑 / 预览”切换视图。标题和简介也会跟着更新。预览断网时会标明正在显示上一次结果，输入的文字仍留在编辑器里。**实时预览不会自动保存，更不会自动发布。**
+
+“保存草稿”会留下草稿，只有你能看见。准备好后点“发布文章”，首页、文章架、日历、RSS 和 sitemap 随即更新。**不用先上传 GitHub，也不用重新构建网站。**
 
 修改已公开的文章，也可以先“保存草稿”：公开版本保持原样，新的正文和图片先留给自己。“发布修改”才会更新网站上的文章；“收回为草稿”会把文章和附属图片一起收起来。删除文章会收起原网址，已经公开过的内容仍可能被别人保存。编辑时记得保存；登录过期后重新输入密码，当前页面中没保存的文字仍会保留。
 
@@ -41,7 +47,7 @@
 2. `src/lib/content-api.ts` + `src/lib/contracts.ts`：前端如何读取公开文章，以及 JSON 数据长什么样。
 3. `src/pages/blog/` + `src/layouts/BlogPost.astro`：文章架和阅读页。
 4. `src/lib/markdown.ts`：阅读与预览共同使用的安全 Markdown 渲染。
-5. `src/pages/admin/` + `src/components/owner/` + `src/scripts/owner/`：自己的书桌，登录、文章编辑和留言回复分开。
+5. `src/pages/login.astro` + `src/middleware.ts` + `src/lib/owner-session.ts`：专属登录与服务端会话检查；`src/pages/admin/` + `src/components/owner/` + `src/scripts/owner/`：自己的书桌，文章编辑、实时预览和留言回复分开。
 6. `src/pages/messages.astro` + `src/pages/thread.astro` + 对应 `src/scripts/`：留言与私密回执。
 7. `src/components/BeijingWindow.astro` + `src/scripts/window-journal.ts` + `src/lib/beijing.ts`：窗景、天气与日历；`src/styles/window-journal.css` 管昼夜与四季样式。
 
@@ -58,7 +64,9 @@ $env:NEONNEXUS_API_ORIGIN = 'http://127.0.0.1:8091'
 npm run astro -- dev --background
 ```
 
-打开 `http://localhost:4321/neonnexus/`；管理页在 `http://localhost:4321/neonnexus/admin/`。内容服务本地启动说明见 `backend/README.md`。
+打开 `http://localhost:4321/neonnexus/`；专属登录页在 `http://localhost:4321/neonnexus/login/`，登录后进入 `/neonnexus/admin/`。内容服务本地启动说明见 `backend/README.md`。
+
+本次已准备独立的本机测试内容服务，临时账号说明保存在 `.astro/private-console-fixture/local-access.txt`，仅当前电脑用户可读，并被 Git 忽略。它与线上账号无关，测试数据库和线上数据分开，测试环境不发送邮件；不要用线上密码登录它，也不要把这些本地私密文件提交到仓库。
 
 ```powershell
 npm run astro -- dev status

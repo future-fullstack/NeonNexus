@@ -1,7 +1,12 @@
+---
+import PreviewPane from './PreviewPane.astro';
+---
 <section data-owner-posts class="owner-grid">
   <aside class="owner-sidebar panel"><div class="owner-section-heading"><h2>文章架</h2><button type="button" data-post-new>写新文章</button></div><div data-post-list></div></aside>
   <div class="owner-workspace panel">
     <p class="message-kicker" data-editor-state>写新文章 · 仅自己可见</p>
+    <div class="owner-view-tabs" aria-label="写作视图"><button type="button" data-editor-view="edit" aria-pressed="true">编辑</button><button type="button" data-editor-view="preview" aria-pressed="false">预览</button></div>
+    <div class="owner-editor-columns" data-editor-columns data-editor-view-mode="edit">
     <form data-post-form method="post">
       <label for="post-title">标题</label><input id="post-title" name="title" maxlength="200" required />
       <label for="post-description">一句话简介</label><textarea id="post-description" name="description" rows="2" maxlength="500" required></textarea>
@@ -10,9 +15,10 @@
       <div class="owner-section-heading"><label for="post-body">正文</label><button type="button" data-image-choose>插入图片</button><input type="file" accept="image/png,image/jpeg,image/gif,image/webp" data-post-image hidden/></div>
       <textarea id="post-body" name="body" rows="18" maxlength="200000" data-post-body placeholder="把想留下来的文字写在这里。可以直接粘贴 Markdown。"></textarea>
       <p class="owner-small-note">Markdown 可以写标题、引用、列表、链接和代码。图片会随这篇文章一起公开或收起来。</p>
-      <div class="owner-actions"><button type="submit" data-post-save>保存草稿</button><button type="button" data-post-preview>预览</button><button type="button" class="message-submit" data-post-publish>发布文章 →</button><button type="button" data-post-unpublish hidden>收回为草稿</button><button type="button" class="owner-danger" data-post-delete hidden>删除文章</button></div>
+      <div class="owner-actions"><button type="submit" data-post-save>保存草稿</button><button type="button" data-post-preview>看看预览</button><button type="button" class="message-submit" data-post-publish>发布文章 →</button><button type="button" data-post-unpublish hidden>收回为草稿</button><button type="button" class="owner-danger" data-post-delete hidden>删除文章</button></div>
       <p class="owner-small-note" data-editor-dirty>保存后只有你能看见；点击发布才会出现在网站上。</p>
     </form>
-    <section class="owner-preview" data-post-preview-panel hidden aria-labelledby="post-preview-heading"><div class="owner-section-heading"><h2 id="post-preview-heading">这一页的预览</h2><button type="button" data-preview-close>收起</button></div><h3 data-preview-title></h3><div class="prose" data-post-rendered></div></section>
+    <PreviewPane/>
+    </div>
   </div>
 </section>

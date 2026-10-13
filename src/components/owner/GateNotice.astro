@@ -1,0 +1,8 @@
+---
+interface Props {insecure?:boolean;}
+const {insecure=false}=Astro.props;
+---
+<section class="panel owner-login" role="status">
+  <h1>{insecure?'请从安全的地址打开书桌':'书桌暂时没连上'}</h1>
+  <p>{insecure?'使用 HTTPS 博客地址后，再来到这一页。':'请稍后刷新这一页。这里暂时无法确认登录状态，控制台还没有打开。'}</p>
+</section>
