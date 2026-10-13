@@ -1,57 +1,56 @@
 ---
-const roofs = [{x:40,y:259,w:212},{x:224,y:288,w:248},{x:510,y:263,w:234},{x:721,y:293,w:236}];
-const stars = [[94,68],[160,110],[249,53],[355,78],[506,42],[602,95],[720,48],[798,91],[896,40]];
-const leaves = [[77,230],[103,199],[112,256],[141,171],[150,212],[177,154],[185,233],[220,179],[244,224],[799,217],[834,162],[849,224],[886,182],[917,245],[938,195]];
+import {Mail, LampDesk, X} from '@lucide/astro';
+const leaves=[[70,206],[105,170],[148,134],[185,97],[202,150],[121,248],[79,292],[496,151],[539,210],[577,260],[541,308]];
+const stars=[[77,59],[211,39],[298,72],[357,45],[514,83],[461,137],[155,104]];
 ---
 <div class="beijing-window" data-lamp="on">
-  <svg class="beijing-view" viewBox="0 0 1000 440" role="img" aria-labelledby="beijing-window-title" shape-rendering="crispEdges">
-    <title id="beijing-window-title">窗外的北京：远处的楼影、胡同屋顶和随四季变化的树，窗台有一只猫和一杯茶。</title>
-    <defs><clipPath id="beijing-glass"><rect x="24" y="22" width="952" height="351"/></clipPath></defs>
-    <rect width="1000" height="440" fill="var(--frame-shadow)"/>
-    <g clip-path="url(#beijing-glass)">
-      <rect x="24" y="22" width="952" height="356" class="scene-sky"/>
-      <path d="M24 202h70v-8h65v-13h50v8h80v-20h65v10h80v-20h54v15h85v-12h75v26h54v-12h56v18h71v-13h77v16h76v170H24Z" class="scene-horizon"/>
-      <g class="scene-stars">{stars.map(([x,y])=><path d={`M${x} ${y}h4v4h-4Z`} fill="#f4dcab"/>)}</g>
-      <g class="scene-sun"><path d="M690 68h38v-7h28v7h16v13h8v35h-8v13h-16v8h-28v-8h-38v-13h-8V81h8Z" fill="#f4d58e"/><path d="M692 78h8v-8h22v8h-22v10h-8Z" fill="#ffebae"/></g>
-      <g class="scene-moon"><path d="M731 54h26v8h15v12h7v30h-8v13h-17v8h-31v-8h-15v-14h-7V75h10V62h20Z" fill="#e8dfb5"/><path d="M744 48h30v17h11v32h-15V85h-17V70h-9Z" class="scene-sky"/></g>
-      <g class="weather-clouds" fill="var(--cloud-color)"><path d="M81 96h24V84h27V74h50v11h24v14h37v17H81Z"/><path d="M333 47h26V34h38v-8h43v14h27v13h37v16H333Z"/><path d="M711 160h34v-11h25v-10h41v10h30v15h37v14H711Z"/></g>
-      <g class="heavy-clouds" fill="var(--cloud-color)"><path d="M24 31h78v12h58V30h90v18h70V32h70v15h63V30h81v14h102V30h100v15h80V29h84v16h76v20h-62v14H807V69h-75v15H615V72H523v12H384V71h-72v19H176V73H75V82H24Z"/></g>
-      <g class="scene-city" fill="var(--city-color)">
-        <path d="M91 197h30v-58h30v58h19v-89h37v89h21v-42h40v73H91Z M286 211v-81h39v-26h21v107h24v-58h33v66Z M445 211v-68h48v68h31V84h11V71h6V58h7v13h6v13h9v129h24v-43h44v53Z M664 214v-70h26l13 39h19l-13-64h25l20 91h-42v-5h-22v15Z M799 211v-95h43v95h27v-54h43v71Z"/>
-        <path d="M178 107h22v-5h-22Z M524 95h38v4h-38Z M528 109h31v3h-31Z M529 124h30v3h-30Z M530 139h29v3h-29Z" fill="var(--city-detail)"/>
-        <g class="city-windows" fill="var(--city-window)">{[183,194,298,313,453,474,806,824,882,898].map((x,i)=><path d={`M${x} ${151+(i%3)*9}h5v7h-5Z M${x} ${185-(i%2)*4}h5v7h-5Z`}/>)}</g>
+  <div class="scene-caption"><span class="live-dot" aria-hidden="true"></span><span>此刻，窗外</span><span class="scene-coordinate">BEIJING / 39.90° N</span></div>
+  <div class="landscape-frame">
+    <svg class="beijing-view" viewBox="0 0 640 510" role="img" aria-labelledby="beijing-window-title">
+      <title id="beijing-window-title">窗外的北京：远处的城市与胡同，四季的树，近处有猫、茶和一盏灯。</title>
+      <defs>
+        <linearGradient id="sky-wash" x2="0" y2="1"><stop stop-color="var(--sky-color)"/><stop offset="1" stop-color="var(--horizon-color)"/></linearGradient>
+        <linearGradient id="mist-wash" x2="0" y2="1"><stop stop-color="var(--cloud-color)" stop-opacity="0"/><stop offset=".55" stop-color="var(--cloud-color)" stop-opacity=".46"/><stop offset="1" stop-color="var(--cloud-color)" stop-opacity="0"/></linearGradient>
+        <radialGradient id="sun-halo"><stop stop-color="#f5d69a" stop-opacity=".6"/><stop offset="1" stop-color="#f5d69a" stop-opacity="0"/></radialGradient>
+      </defs>
+      <rect width="640" height="510" fill="url(#sky-wash)"/>
+      <g class="scene-sun"><circle cx="454" cy="109" r="90" fill="url(#sun-halo)"/><circle cx="454" cy="109" r="30" fill="#e9c885"/></g>
+      <g class="scene-moon"><circle cx="454" cy="109" r="28" fill="#e3dbb9"/><circle cx="465" cy="100" r="25" class="scene-sky"/></g>
+      <g class="scene-stars" fill="#e1dcbb">{stars.map(([cx,cy])=><circle cx={cx} cy={cy} r="1.4"/>)}</g>
+      <g class="weather-clouds" fill="var(--cloud-color)" opacity=".45"><path d="M70 133c36-39 105-48 162-21-12 18-141 35-162 21Z"/><path d="M332 60c52-29 127-33 175-11-57 16-123 15-175 11Z"/></g>
+      <g class="heavy-clouds" fill="var(--cloud-color)" opacity=".5"><path d="M-25 32Q133 4 252 47T668 25V117Q475 127 283 91T-25 100Z"/></g>
+      <path d="M0 278q97-31 161-11t151 4 144-33 184 39v233H0Z" fill="var(--ground-color)" opacity=".65"/>
+      <g class="scene-city" fill="var(--city-color)" opacity=".55"><path d="M133 295v-77h21v-12h24v89m19 0V183h36v112m17 0v-64h26v64m39 0V157h7v-14h8v14h9v138m37 0v-92h25v92m17 0v-84h27l11 40h12l-14-93h18l19 137m32 0V211h37v84m20 0v-62h29v62"/><path d="M197 198h36m81-14h25m-25 16h25m-25 16h25" stroke="var(--city-detail)" stroke-width="2"/></g>
+      <g class="hutong-near">
+        <path d="M-20 367v-42h175v42m17 4v-72h184v72m14 27v-78h171v78m16 20v-61h92v61" fill="var(--house-color)"/>
+        <g fill="var(--roof-color)"><path d="M-31 327q54-13 90-31 49 31 106 31l-6 8H-28Z"/><path d="M159 302q54-10 97-34 46 28 111 34l-5 9H165Z"/><path d="M359 323q40-8 77-25 51 29 117 25l-10 10H365Z"/><path d="M544 359q36-7 61-22 24 16 58 22v8H544Z"/></g>
+        <g fill="var(--house-window)"><rect x="24" y="343" width="28" height="28" rx="1"/><rect x="100" y="343" width="28" height="28" rx="1"/><rect x="189" y="329" width="28" height="27" rx="1"/><rect x="302" y="329" width="28" height="27" rx="1"/><rect x="391" y="351" width="29" height="28" rx="1"/><rect x="486" y="351" width="29" height="28" rx="1"/></g>
+        <g stroke="var(--roof-color)" stroke-width="2" fill="none"><path d="M38 343v28m-14-14h28m62-14v28m-14-14h28m75-14v27m-14-13h28m99-14v27m-14-13h28m75-5v28m-15-14h29m81-14v28m-15-14h29"/></g>
+        <path d="M237 320h49v55h-49Z" fill="#765248"/><path d="M261 324v48" stroke="#b18a6c"/>
+        <path d="M-25 417q198-71 355-24t334 24v93H-25Z" fill="var(--ground-color)"/>
+        <g class="roof-snow" stroke="#e9eee8" stroke-width="4" fill="none"><path d="M-20 325q37-9 79-28 47 29 97 29m15-24q45-11 85-33 42 26 96 30m20 24q37-10 64-24 44 23 103 25"/></g>
       </g>
-      <rect x="24" y="271" width="952" height="106" fill="var(--ground-color)"/>
-      <g>{roofs.map(({x,y,w},i)=><g><rect x={x+17} y={y+14} width={w-34} height="120" fill={i%2?'var(--house-muted)':'var(--house-color)'}/><path d={`M${x} ${y}h12v-8h14v-10h${w-52}v10h14v8h12v10H${x}Z`} fill="var(--roof-color)"/><path d={`M${x+28} ${y-14}h${w-56}v3h-${w-56}Z M${x+15} ${y-3}h${w-30}v3h-${w-30}Z`} fill="var(--roof-detail)"/><path d={`M${x+40} ${y+30}h28v35h-28Z M${x+w-66} ${y+30}h28v35h-28Z`} fill="var(--house-window)"/><path d={`M${x+52} ${y+30}h3v35h-3Z M${x+40} ${y+47}h28v3h-28Z M${x+w-54} ${y+30}h3v35h-3Z`} fill="var(--roof-color)"/><rect x={x+w/2-18} y={y+30} width="36" height="80" fill="#71453f"/><path d={`M${x+w/2-13} ${y+34}h3v72h-3Z`} fill="#ab725a"/><path class="roof-snow" d={`M${x+26} ${y-20}h${w-52}v7h-${w-52}Z M${x+13} ${y-8}h${w-26}v5h-${w-26}Z`} fill="#e2ebdf"/></g>)}</g>
-      <g class="courtyard-details"><path d="M478 300h4v74h-4Z M478 299h40v3h-40Z M498 302h3v24h-3Z" fill="var(--roof-color)"/><path d="M491 312h17v18h-17Z" fill="#bd7556"/><path d="M495 314h9v14h-9Z" fill="#e8a972"/></g>
-      <g class="scene-tree" fill="var(--trunk-color)"><path d="M120 374h17V252h-10v-35h-11v-18h-9v-29h-8v28h8v28h9v39h4Z M130 290h9v-33h13v-27h12v-32h8v-31h8v34h-9v35h-10v30h-15v33h-16Z M133 248h9v-61h-9v-36h-10v-31h-8v37h10v33h8Z M884 374h14v-90h14v-35h10v-36h8v-25h-8v24h-10v32h-13v37h-6v-43h-12v-34h-9v-35h-9v43h10v33h11Z M891 290h-12v-38h-16v-20h-8v-23h-8v27h12v21h12v39h20Z"/>
-        <g class="season-foliage foliage-spring" fill="#9cb889">{leaves.map(([x,y],i)=><path d={`M${x} ${y}h${18+i%3*5}v14h-${18+i%3*5}Z M${x+6} ${y-6}h12v6h-12Z`}/>)}</g>
-        <g class="season-foliage foliage-summer" fill="#557f69">{leaves.map(([x,y],i)=><path d={`M${x-15} ${y-7}h${50+i%3*5}v32h-${50+i%3*5}Z M${x-7} ${y-18}h32v14h-32Z`}/>)}</g>
-        <g class="season-foliage foliage-autumn">{leaves.map(([x,y],i)=><path d={`M${x-5} ${y}h${30+i%3*5}v20h-${30+i%3*5}Z M${x+3} ${y-8}h18v8h-18Z`} fill={['#c89857','#ba704d','#dab778'][i%3]}/>)}</g>
-        <g class="season-foliage foliage-winter" fill="#e2e9df"><path d="M96 170h14v4H96Z M164 198h16v5h-16Z M122 122h8v16h-8Z M854 171h20v4h-20Z M910 212h19v5h-19Z M875 249h10v4h-10Z"/></g>
-        <g class="spring-blossoms" fill="#e6baa8"><path d="M120 178h5v5h-5Z M153 224h6v6h-6Z M177 171h7v7h-7Z M102 241h5v5h-5Z M878 195h6v6h-6Z M931 221h6v6h-6Z"/></g>
-      </g>
-      <g class="weather-fog" fill="#d3d8cb" opacity=".6"><path d="M24 210h952v13H24Z M24 247h952v8H24Z M24 275h952v21H24Z"/></g>
-      <g class="weather-lightning" fill="#fff1bd"><path d="M623 71h25l-20 39h20l-43 71 11-55h-19Z"/></g>
-      <g class="glass-reflection" fill="#fff6dd" opacity=".07"><path d="M45 23h33L30 133V89Z M350 23h44L253 373h-44Z M973 173v89l-47 110h-42Z"/></g>
-    </g>
-    <g class="window-frame" fill="var(--frame-color)"><rect x="8" y="8" width="984" height="16"/><rect x="8" y="8" width="18" height="377"/><rect x="974" y="8" width="18" height="377"/><rect x="483" y="20" width="24" height="361"/><rect x="24" y="197" width="952" height="12"/><rect x="0" y="373" width="1000" height="29"/></g>
-    <g fill="var(--frame-light)"><path d="M8 8h984v5H8Z M8 8h5v365H8Z M483 20h5v353h-5Z M0 373h1000v7H0Z"/><path d="M993 400v8H7v-8Z"/></g>
-    <path d="M8 406h984v17H8Z" fill="var(--frame-shadow)"/>
-    <g class="sill-plant"><path d="M67 384h43v12H67Z M72 396h33v16H72Z" fill="#9a6955"/><path d="M83 383v-53h9v53Z M83 351H65v-8H53v-13h18v7h12Z M92 359h17v-8h11v-13h-16v8H92Z M87 335H75v-9h-7v-11h14v8h5Z" fill="#72916d"/><path d="M83 384h9v3h-9Z" fill="#d1b991"/></g>
-    <g class="sill-books"><path d="M196 392h95v10h-95Z" fill="#657978"/><path d="M202 382h88v10h-88Z" fill="#a77461"/><path d="M209 386h76v4h-76Z" fill="#e6d9b9"/><path d="M199 396h87v4h-87Z" fill="#e6d9b9"/></g>
-    <g class="sill-cat"><path d="M345 391h72v-8h-11v-17h-25v-7h-10v-13h-8v10h-14v-10h-8v32h4Z M410 389h16v-9h10v-6h8v13h-11v12h-88v-8Z" fill="#c6ab7e"/><path d="M350 369h6v3h-6Z M365 369h6v3h-6Z" fill="#5a514a"/><path d="M357 377h8v3h-8Z" fill="#b77f6b"/><path d="M383 368h6v19h-6Z M397 377h5v12h-5Z" fill="#a78b64"/></g>
-    <g class="sill-cup"><path d="M554 364h37v33h-37Z M591 370h13v20h-13v-6h7v-8h-7Z" fill="#d3cfae"/><path d="M557 367h31v6h-31Z" fill="#7a6554"/><path d="M560 393h25v4h-25Z M546 398h54v4h-54Z" fill="#a3ada0"/><g class="tea-steam" fill="var(--steam-color)"><path d="M562 355h4v-12h-4v-10h4v-5h-4v-4h-4v14h4Z M579 359h4v-10h4v-12h-4v-9h-4v12h4v6h-4Z"/></g></g>
-    <g class="sill-envelope"><path d="M682 373h66v31h-66Z" fill="#e3d2a8"/><path d="M685 375h60v3h-8v4h-8v4h-9v4h-10v-4h-9v-4h-8v-4h-8Z" fill="#baa986"/><path d="M710 386h10v10h-10Z" fill="#a86651"/></g>
-    <g class="sill-lamp"><path d="M858 380h8v-39h-8Z M839 380h47v7h-47Z M831 324h62v11h-62Z M839 309h46v15h-46Z M848 296h29v13h-29Z" fill="#767b65"/><path d="M837 328h50v8h-50Z" class="lamp-bulb"/><path d="M850 299h24v4h-24Z" fill="#a6a484"/></g>
-  </svg>
-  <div class="window-weather-mask" aria-hidden="true">
-    <div class="weather-rain">{Array.from({length:40},(_,i)=><i style={`--x:${i*37%100}%;--y:${i*29%100}%;--delay:-${i%9}s;--speed:${.6+i%4*.2}s`}></i>)}</div>
-    <div class="weather-snow">{Array.from({length:26},(_,i)=><i style={`--x:${i*41%100}%;--y:${i*31%100}%;--delay:-${i%8}s;--speed:${7+i%5}s`}></i>)}</div>
-    <div class="season-leaves">{Array.from({length:9},(_,i)=><i style={`--x:${i*43%100}%;--y:${i*19%100}%;--delay:-${i%6}s;--speed:${8+i%4}s`}></i>)}</div>
+      <g class="scene-tree" fill="none" stroke="var(--trunk-color)" stroke-linecap="round"><path d="M-2 482Q52 378 53 262T86 22M49 283q43-59 62-111t97-91M56 205Q9 158 9 101M34 371q79-34 111-105M633 436Q586 335 584 239T539 61M589 297q-52-69-77-110M583 224q47-43 48-104" stroke-width="5"/><path d="M98 197q50 2 93-47M520 204q-35-10-40-55M83 314q9-16-5-24" stroke-width="2"/></g>
+      <g class="season-foliage">{leaves.map(([cx,cy],i)=><ellipse cx={cx} cy={cy} rx={25+i%3*10} ry={13+i%3*7} transform={`rotate(${i%2?30:-30} ${cx} ${cy})`} fill="var(--leaf-color)" opacity={.45+i%3*.12}/>)}</g>
+      <g class="spring-blossoms" fill="#e7b7af">{leaves.map(([cx,cy])=><circle cx={cx+13} cy={cy+8} r="4"/>)}</g>
+      <g class="weather-fog"><rect y="210" width="640" height="245" fill="url(#mist-wash)"/></g>
+      <g class="weather-lightning" fill="#f8edd1"><path d="M380 80l-21 40h15l-30 48 9-37h-17l27-51Z"/></g>
+      <path d="M0 460H640v50H0Z" fill="var(--sill-color)"/><path d="M0 461H640" stroke="var(--sill-edge)"/>
+      <g class="sill-books"><rect x="92" y="445" width="65" height="10" rx="2" fill="#8c9c86"/><rect x="97" y="434" width="62" height="10" rx="2" fill="#b9947f"/><path d="M105 438h48m-53 11h50" stroke="#efe6d7" stroke-width="2"/></g>
+      <g class="sill-cat" fill="#af9574"><path d="M227 461c-16 0-23-11-24-19l-3-26 15 9 15-9 5 18c21-6 41 4 41 20 15 2 23-5 18-14-6-10 8-14 10-3 4 19-12 26-30 25Z"/><path d="M210 438h3m10 0h3" stroke="#52483f" stroke-width="2" stroke-linecap="round"/></g>
+      <g class="sill-cup"><path d="M342 428h30v27q-15 11-30 0Zm30 4c18-4 18 21 0 17" fill="#d7ccb1" stroke="#9a957f"/><path d="M346 432h22" stroke="#8a7159" stroke-width="3"/><g class="tea-steam" stroke="var(--steam-color)" stroke-width="2" fill="none"><path d="M351 420q-6-8 0-16t0-14m11 32q7-8 1-14"/></g></g>
+      <g class="sill-lamp"><path d="M545 453h36m-18 0v-54m-24-1h48l-11-25h-26Z" fill="var(--lamp-shade)" stroke="var(--lamp-shade)" stroke-width="4" stroke-linecap="round"/><path d="M542 400h43" class="lamp-bulb" stroke-width="3"/></g>
+    </svg>
+    <canvas class="atmosphere-canvas" style="width:100%;height:90%" data-atmosphere aria-hidden="true"></canvas>
+    <div class="window-weather-mask" aria-hidden="true">
+      <div class="weather-rain">{Array.from({length:24},(_,i)=><i style={`--x:${i*37%100}%;--y:${i*29%100}%;--delay:-${i%9}s;--speed:${.8+i%4*.2}s`}/>)}</div>
+      <div class="weather-snow">{Array.from({length:18},(_,i)=><i style={`--x:${i*41%100}%;--y:${i*31%100}%;--delay:-${i%8}s;--speed:${7+i%5}s`}/>)}</div>
+      <div class="season-leaves">{Array.from({length:7},(_,i)=><i style={`--x:${i*43%100}%;--y:${i*19%100}%;--delay:-${i%6}s;--speed:${8+i%4}s`}/>)}</div>
+    </div>
+    <div class="lamp-glow" aria-hidden="true"></div>
+    <div class="scene-actions"><button type="button" data-lamp-toggle aria-label="关掉窗台的灯" aria-pressed="true"><LampDesk size={17} stroke-width={1.4} aria-hidden="true"/><span>一盏灯</span></button><button type="button" data-note-toggle aria-label="打开窗台上的信封" aria-expanded="false" aria-controls="window-envelope-note"><Mail size={17} stroke-width={1.4} aria-hidden="true"/><span>一封信</span></button></div>
+    <div class="envelope-note" id="window-envelope-note" hidden><button type="button" data-note-close aria-label="合上这封信"><X size={16} aria-hidden="true"/></button><span class="note-date">留给多看一眼的人</span><p>这里没准会有好玩的东西哦（笑</p><span class="note-sign" aria-hidden="true">✧</span></div>
   </div>
-  <div class="lamp-glow" aria-hidden="true"></div>
-  <button type="button" class="scene-hitbox lamp-hitbox" data-lamp-toggle aria-label="关掉窗台的灯" aria-pressed="true"><span>灯</span></button>
-  <button type="button" class="scene-hitbox note-hitbox" data-note-toggle aria-label="打开窗台上的信封" aria-expanded="false" aria-controls="window-envelope-note"><span>信</span></button>
-  <p class="envelope-note" id="window-envelope-note" hidden><span class="note-date">留给多看一眼的人</span>这里没准会有好玩的东西哦（笑</p>
+  <div class="scene-footnote"><span>天气会变，故事慢慢写。</span><span data-season-label>北京 · 秋日窗边</span></div>
 </div>
+<script>import '../scripts/atmosphere';</script>

@@ -1,12 +1,20 @@
 # NeonNexus · 一篇一篇，慢慢生长
 
-北京窗边手帐：四季窗景、当天北京天气、随昼夜变化的白底与黑底、文章日历，还有一个私密的匿名留言箱。
+北京窗边的个人小站：四季窗景、当天北京天气、随昼夜变化的白底与黑底、文章日历，还有一个私密的匿名留言箱。
 
 - 博客：[回到窗边](https://39.96.71.56/neonnexus/)
 - 自己的书桌：[写文章与读留言](https://39.96.71.56/neonnexus/admin/)
 - 代码：[公开 GitHub 仓库](https://github.com/future-fullstack/NeonNexus)
 
 本轮新增的专属登录页、服务端控制台访问保护和实时分屏预览**只在本地完成，尚未上线**。线上仍运行上一版。以下新的登录与预览说明，先用于本机体验。
+
+本轮的前端重新设计也**只在本地体验，尚未部署**：首页以文字与庭院窗景构成非对称布局，细线导航、圆形日期、文章档案与信件入口使用同一套昼夜配色。平滑 SVG 取代木框像素画；猫、茶、灯和信仍在窗边，信可用按钮或 Escape 合上。手机上按阅读顺序自然排列，日历仍能按日期找文章。
+
+窗景使用锁定版本的 `shaders@4.0.4`，通过原生 JS 在浏览器中按需加载，只增强局部光线和空气流动。鼠标移入窗景时光晕缓慢跟随，离开回到日月位置；手机入口不依赖悬停。原始 SVG 始终显示；不支持 WebGPU、没有可用设备、初始化失败或运行故障时仍可完整阅读和操作。它没有 WebGL 后备渲染，微信内置浏览器兼容性需以后用真机验证。系统减少动态效果时不加载 GPU 模块；暂停动态、离屏、隐藏页面都会停止绘制，离开页面销毁实例，恢复页面重新初始化。效果不是天气模拟器，北京 API 数据只驱动自己的视觉参数。
+
+GPU 独立模块实际为约 2.45 MiB，gzip 约 691 KiB，并不是轻量依赖。只在首页窗景可见、允许运动且存在 WebGPU 时，等浏览器空闲后动态导入（有等待超时回退），不会阻塞静态首屏或文章阅读。其它页面不加载；当前公开 `createShader` API 无法关闭内部完整组件注册表，本轮未修改包内部实现。
+
+所有特效组合自行设计，未使用官网 Pro 预设、付费成品区块或远程纹理；明确关闭 Shaders 的遥测。图标采用 `@lucide/astro` 的原生 SVG 组件，无需 React。依赖许可证留在 `THIRD_PARTY_NOTICES.md`，组件库选型与边界见 [前端视觉选型](docs/frontend-design.md)。
 
 ## 自己发一篇文章
 
@@ -49,7 +57,7 @@
 4. `src/lib/markdown.ts`：阅读与预览共同使用的安全 Markdown 渲染。
 5. `src/pages/login.astro` + `src/middleware.ts` + `src/lib/owner-session.ts`：专属登录与服务端会话检查；`src/pages/admin/` + `src/components/owner/` + `src/scripts/owner/`：自己的书桌，文章编辑、实时预览和留言回复分开。
 6. `src/pages/messages.astro` + `src/pages/thread.astro` + 对应 `src/scripts/`：留言与私密回执。
-7. `src/components/BeijingWindow.astro` + `src/scripts/window-journal.ts` + `src/lib/beijing.ts`：窗景、天气与日历；`src/styles/window-journal.css` 管昼夜与四季样式。
+7. `src/components/BeijingWindow.astro` + `src/components/ArticleCalendar.astro` + `src/scripts/window-journal.ts` + `src/lib/beijing.ts`：窗景、天气与日历；`src/scripts/atmosphere.ts` 独立管理局部 GPU 增强；`src/styles/window-journal.css` 管昼夜、四季和公开页面样式。
 
 `src/consts.ts` 是站名与简介。`src/content/blog/first-signal.md` 保留初始首文，原模板说明、草稿写作素材和示例图片集中在 `docs/template/`，只作参考，**现在在线文章以内容服务里的数据为准**。初始首文迁移时保留了 `first-signal` 网址和 2026-10-11 日期。两个公开示例已删除，归档模板不会自动发布。不要把 Obsidian 库或私人材料复制到公开仓库。
 

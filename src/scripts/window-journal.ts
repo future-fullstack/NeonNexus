@@ -75,7 +75,10 @@ async function refreshWeather(force=false){
 }
 document.querySelector('[data-weather-retry]')?.addEventListener('click',()=>void refreshWeather(true));
 document.querySelector('[data-lamp-toggle]')?.addEventListener('click',event=>{const scene=document.querySelector<HTMLElement>('.beijing-window');if(!scene)return;const on=scene.dataset.lamp!=='on';scene.dataset.lamp=on?'on':'off';const button=event.currentTarget as HTMLElement;button.setAttribute('aria-pressed',String(on));button.setAttribute('aria-label',on?'关掉窗台的灯':'打开窗台的灯');});
-document.querySelector('[data-note-toggle]')?.addEventListener('click',event=>{const note=document.getElementById('window-envelope-note');if(!note)return;note.hidden=!note.hidden;const button=event.currentTarget as HTMLElement;button.setAttribute('aria-expanded',String(!note.hidden));button.setAttribute('aria-label',note.hidden?'打开窗台上的信封':'合上窗台上的信封');});
+function toggleNote(open:boolean){const note=document.getElementById('window-envelope-note'),button=document.querySelector<HTMLElement>('[data-note-toggle]');if(!note||!button)return;note.hidden=!open;button.setAttribute('aria-expanded',String(open));button.setAttribute('aria-label',open?'合上窗台上的信封':'打开窗台上的信封');}
+document.querySelector('[data-note-toggle]')?.addEventListener('click',()=>toggleNote(!!document.getElementById('window-envelope-note')?.hidden));
+document.querySelector('[data-note-close]')?.addEventListener('click',()=>{toggleNote(false);document.querySelector<HTMLElement>('[data-note-toggle]')?.focus();});
+document.addEventListener('keydown',event=>{if(event.key==='Escape'&&!document.getElementById('window-envelope-note')?.hidden){toggleNote(false);document.querySelector<HTMLElement>('[data-note-toggle]')?.focus();}});
 // Today's solar times remain useful offline even after cached weather expires.
 try{const stored=JSON.parse(localStorage.getItem(CACHE)||'null');if(validSolar(stored?.solar))solar=stored.solar;}catch{}
 updateDate();renderCalendar();showEntries();void refreshWeather();

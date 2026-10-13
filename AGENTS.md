@@ -27,6 +27,7 @@ This project already has a Git repository and the GitHub remote `future-fullstac
 
 - For new features or substantial functional changes, use a focused `codex/<feature-name>` branch. Small documentation-only updates may stay on the current branch.
 - Before delivery, review the diff and run checks appropriate to the change. Commit the code and relevant documentation, then push the branch to GitHub. Do not report a successful push until it has actually succeeded; report network or authentication failures honestly.
+- Apply this delivery step after every completed development change, including small UI fixes, without waiting for a separate Git request; publishing articles remains outside this workflow.
 - Keep passwords, access tokens, private environment files, databases, visitor messages, anonymous retrieval secrets, private drafts and backups out of Git, including temporary files and commit history. Check staged files before committing.
 - Normal article writing and publishing happen in the website's private editor and content database; they do not require Git commits, GitHub uploads or rebuilding the frontend.
 - Do not change global Git, system proxy or Clash settings to work around a Git connection issue. Prefer a command-scoped proxy setting and retain TLS certificate verification.

@@ -1,12 +1,12 @@
 ---
 import {withBase} from '../lib/paths';
 import {SITE_TITLE} from '../consts';
-import PixelSign from './PixelSign.astro';
-const links=[{href:'/',label:'入口'},{href:'/blog/',label:'文章'},{href:'/about/',label:'关于'},{href:'/messages/',label:'留言'}];
+import {Orbit, BookOpen, Mail, House, UserRound, Wind} from '@lucide/astro';
+const links=[{href:'/',label:'入口',icon:House},{href:'/blog/',label:'文章',icon:BookOpen},{href:'/about/',label:'关于',icon:UserRound},{href:'/messages/',label:'留言',icon:Mail}];
 const pathname='/' + Astro.url.pathname.slice(import.meta.env.BASE_URL.length).replace(/^\//,'');
 ---
 <header class="site-header shell">
-  <div class="site-sign"><a class="wordmark" href={withBase('/')} aria-label={`${SITE_TITLE} 首页`}><PixelSign text={SITE_TITLE}/></a><p class="sign-caption">A LITTLE PLACE ON THE INTERNET <span aria-hidden="true">✧</span></p></div>
-  <div class="site-toolbar"><nav aria-label="主导航">{links.map(({href,label}) => <a href={withBase(href)} aria-current={(href==='/' ? pathname==='/' : pathname.startsWith(href)) ? 'page' : undefined}>{label}</a>)}</nav><button type="button" class="rain-toggle" data-motion-toggle aria-pressed="false"><span aria-hidden="true">◌</span> <span data-motion-label>暂停动态</span></button></div>
+  <div class="site-sign"><a class="wordmark" href={withBase('/')} aria-label={`${SITE_TITLE} 首页`}><span class="brand-orbit"><Orbit size={23} stroke-width={1.2} aria-hidden="true"/></span><span>{SITE_TITLE}<small>一处，慢慢生长。</small></span></a></div>
+  <div class="site-toolbar"><nav aria-label="主导航">{links.map(({href,label,icon:Icon}) => <a href={withBase(href)} aria-current={(href==='/' ? pathname==='/' : pathname.startsWith(href)) ? 'page' : undefined}><Icon size={15} stroke-width={1.5} aria-hidden="true"/><span>{label}</span></a>)}</nav><button type="button" class="rain-toggle" data-motion-toggle aria-pressed="false"><Wind size={15} stroke-width={1.5} aria-hidden="true"/><span data-motion-label>暂停动态</span></button></div>
 </header>
 

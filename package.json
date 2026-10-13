@@ -4,10 +4,12 @@
 	"dependencies": {
 		"@astrojs/node": "11.1.7",
 		"@astrojs/rss": "4.0.19",
+		"@lucide/astro": "1.56.0",
 		"astro": "7.3.5",
 		"entities": "8.1.0",
 		"marked": "18.1.0",
 		"sanitize-html": "2.18.0",
+		"shaders": "4.0.4",
 		"typescript": "5.9.3"
 	},
 	"devDependencies": {
