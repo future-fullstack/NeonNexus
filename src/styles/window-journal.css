@@ -43,7 +43,7 @@ body:has(.window-journal) .rain-toggle span:first-child{color:var(--warm);}
 .weather-source{display:flex;align-items:center;justify-content:flex-end;gap:9px;margin-top:3px;}
 .weather-source a{color:var(--muted);text-decoration:none;}
 .weather-source button{border:0;background:transparent;color:var(--muted);padding:0 5px;font-size:16px;line-height:1.3;}
-.window-scene-block{position:relative;padding:8px 8px 0;background:var(--room-edge);box-shadow:0 8px 18px #473f3117;}
+.window-scene-block{position:relative;z-index:1;padding:8px 8px 0;background:var(--room-edge);box-shadow:0 8px 18px #473f3117;}
 .beijing-window{position:relative;isolation:isolate;}
 .beijing-view{width:100%;height:auto;image-rendering:pixelated;}
 .scene-sky{fill:var(--sky-color);}
@@ -78,8 +78,10 @@ body[data-season='spring'] .season-leaves i{background:#e9c6b6;}
 .scene-hitbox:hover span,.scene-hitbox:focus-visible span{opacity:1;}
 .lamp-hitbox{left:82%;top:66%;width:10%;height:23%;}
 .note-hitbox{left:67%;top:83%;width:9%;height:10%;}
+.scene-hitbox.note-hitbox span{bottom:calc(100% + 3px);}
 .envelope-note{position:absolute;z-index:4;right:9%;bottom:10%;width:250px;padding:23px 21px 20px;background:var(--note-sheet);color:var(--note-ink);box-shadow:3px 5px 0 #483d3a35;transform:rotate(-3deg);font-size:13px;line-height:1.9;border:1px solid #bda987;}
 .envelope-note::before{content:'';position:absolute;left:40%;top:-9px;width:55px;height:18px;background:#b6bb9280;transform:rotate(5deg);}
+.beijing-window .envelope-note{bottom:20%;}
 .note-date{display:block;font-size:10px;letter-spacing:.1em;color:var(--sheet-muted);margin-bottom:8px;}
 .window-footer{display:flex;justify-content:space-between;gap:12px;padding:9px 12px;font-size:11px;color:var(--muted);}
 .window-footer p{margin:0;}
