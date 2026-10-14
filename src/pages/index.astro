@@ -14,18 +14,19 @@ const calendarPosts=publicPosts.map(post=>({title:post.title,href:postHref(post)
 ---
 <SiteLayout>
   <div class="window-journal shell" data-window-journal>
+    <div class="station-heading"><span><i aria-hidden="true"></i> 个人观测 · 生活 / 学习 / 未解的问题</span><span data-beijing-date>今天的北京</span></div>
     <section class="journal-hero" aria-labelledby="welcome-title">
       <div class="hero-copy">
-        <p class="hero-eyebrow"><span class="tiny-orbit" aria-hidden="true">✧</span> 生活的切片，未完的故事</p>
-        <h1 id="welcome-title">日子很长，<br/><em>慢慢写。</em></h1>
-        <p class="hero-intro">这里放着我的生活、学习，<br/>和一些还在生长的想法。<br/>你可以随便翻翻，也可以留几句话。</p>
+        <p class="hero-eyebrow"><span class="tiny-orbit" aria-hidden="true">＋</span> 一份仍在更新的个人记录</p>
+        <h1 id="welcome-title">记录生活，<br/><em>也观察自己。</em></h1>
+        <p class="hero-intro">学习的片段，生活的琐事，<br/>和暂时没有答案的问题。<br/>都留在这里，慢慢整理。</p>
         <div class="hero-links"><a class="primary-link" href={withBase('/blog/')}>翻开文章 <ArrowUpRight size={18} stroke-width={1.5} aria-hidden="true"/></a><a class="quiet-link" href={withBase('/about/')}>认识我 <ArrowRight size={16} stroke-width={1.4} aria-hidden="true"/></a></div>
         <div class="weather-slip"><div class="weather-time"><span class="live-dot" aria-hidden="true"></span><span data-beijing-date>今天的北京</span></div><strong data-weather-text>正在看看窗外…</strong><span data-weather-updated>天气来自 Open-Meteo</span><div class="weather-source"><a href="https://open-meteo.com/" target="_blank" rel="noopener noreferrer">Open-Meteo</a><span aria-hidden="true">/</span><a href="https://open-meteo.com/en/licence" target="_blank" rel="noopener noreferrer">CC BY 4.0</a><button type="button" data-weather-retry aria-label="重新获取北京天气"><RefreshCw size={13} stroke-width={1.5} aria-hidden="true"/></button></div></div>
       </div>
       <div class="window-scene-block"><BeijingWindow/></div>
     </section>
     <div class="desk-layout">
-      <section class="journal-pages" aria-labelledby="journal-title"><div class="journal-sheet-heading"><div><p class="eyebrow">PAGES / 留下的文字</p><h2 id="journal-title">最近写下的</h2></div><a href={withBase('/rss.xml')} aria-label="RSS 订阅文章">RSS <ArrowUpRight size={13} aria-hidden="true"/></a></div><div class="post-list">{contentError?<p class="empty-state">{contentError}</p>:publicPosts.length?publicPosts.slice(0,3).map((post,index)=><PostCard post={post} index={index}/>):<p class="empty-state">第一篇文章还在路上。</p>}</div><a class="all-posts" href={withBase('/blog/')}>所有文章 <ArrowRight size={17} stroke-width={1.4} aria-hidden="true"/></a><a class="letter-invitation" href={withBase('/messages/')}><span class="invitation-icon"><Mail size={21} stroke-width={1.1} aria-hidden="true"/></span><span><strong>如果你也有话想说</strong><small>不用留下名字。给我写一封信吧。</small></span><ArrowUpRight size={17} stroke-width={1.5} aria-hidden="true"/></a></section>
+      <section class="journal-pages" aria-labelledby="journal-title"><div class="journal-sheet-heading"><div><p class="eyebrow">文章索引 / FIELD NOTES</p><h2 id="journal-title">最近的记录<span class="section-count">{contentError?'索引暂未读取':`${String(publicPosts.length).padStart(2,'0')} 篇公开文章`}</span></h2></div><a href={withBase('/rss.xml')} aria-label="RSS 订阅文章">RSS <ArrowUpRight size={13} aria-hidden="true"/></a></div><div class="index-columns" aria-hidden="true"><span>索引</span><span>记录 / 日期 / 分类</span></div><div class="post-list">{contentError?<p class="empty-state">{contentError}</p>:publicPosts.length?publicPosts.slice(0,3).map((post,index)=><PostCard post={post} index={index}/>):<p class="empty-state">第一篇文章还在路上。</p>}</div><a class="all-posts" href={withBase('/blog/')}>查看全部记录 <ArrowRight size={17} stroke-width={1.4} aria-hidden="true"/></a><a class="letter-invitation" href={withBase('/messages/')}><span class="invitation-icon"><Mail size={21} stroke-width={1.1} aria-hidden="true"/></span><span><strong>私人通信 / 给我留几句话</strong><small>不用留下名字。留言不公开，凭回执还能继续聊。</small></span><ArrowUpRight size={17} stroke-width={1.5} aria-hidden="true"/></a></section>
       <ArticleCalendar/>
     </div>
     <div class="journal-afterword"><span class="afterword-line" aria-hidden="true"></span><p>有些故事，还没准备好开口。</p><span>先留一页，慢慢写。</span></div>

@@ -3,7 +3,7 @@ import {KeyRound} from '@lucide/astro';
 ---
 <section class="owner-login panel" data-owner-login>
   <span class="login-emblem"><KeyRound size={22} stroke-width={1.2} aria-hidden="true"/></span>
-  <p class="message-kicker">回到自己的书桌</p><h1>写一点，留一点</h1><p>文章和私密留言都在这里。</p>
+  <p class="message-kicker">专属书桌 / 留给自己</p><h1>写一点，留一点</h1><p>文章和私密留言都在这里。</p>
   <form data-owner-login-form method="post"><label for="owner-password">你的密码</label><input id="owner-password" type="password" name="password" maxlength="256" autocomplete="current-password" required data-owner-password/><button class="message-submit" type="submit" data-owner-login-submit disabled>打开书桌 →</button><p data-owner-login-status role="status" aria-live="polite"></p></form>
   <noscript><p>书桌需要开启 JavaScript，开启后再回来写文章吧。</p></noscript>
 </section>

@@ -1,12 +1,12 @@
 ---
 import {withBase} from '../lib/paths';
 import {SITE_TITLE} from '../consts';
-import {Orbit, BookOpen, Mail, House, UserRound, Wind} from '@lucide/astro';
-const links=[{href:'/',label:'入口',icon:House},{href:'/blog/',label:'文章',icon:BookOpen},{href:'/about/',label:'关于',icon:UserRound},{href:'/messages/',label:'留言',icon:Mail}];
+import {Wind} from '@lucide/astro';
+const links=[{href:'/',label:'入口'},{href:'/blog/',label:'文章'},{href:'/about/',label:'关于'},{href:'/messages/',label:'留言'}];
 const pathname='/' + Astro.url.pathname.slice(import.meta.env.BASE_URL.length).replace(/^\//,'');
 ---
 <header class="site-header shell">
-  <div class="site-sign"><a class="wordmark" href={withBase('/')} aria-label={`${SITE_TITLE} 首页`}><span class="brand-orbit"><Orbit size={23} stroke-width={1.2} aria-hidden="true"/></span><span>{SITE_TITLE}<small>一处，慢慢生长。</small></span></a></div>
-  <div class="site-toolbar"><nav aria-label="主导航">{links.map(({href,label,icon:Icon}) => <a href={withBase(href)} aria-current={(href==='/' ? pathname==='/' : pathname.startsWith(href)) ? 'page' : undefined}><Icon size={15} stroke-width={1.5} aria-hidden="true"/><span>{label}</span></a>)}</nav><button type="button" class="rain-toggle" data-motion-toggle aria-pressed="false"><Wind size={15} stroke-width={1.5} aria-hidden="true"/><span data-motion-label>暂停动态</span></button></div>
+  <div class="site-sign"><a class="wordmark" href={withBase('/')} aria-label={`${SITE_TITLE} 首页`}><span class="brand-symbol"><svg viewBox="0 0 42 42" width="42" height="42" aria-hidden="true"><path d="M4 14V4h10m14 0h10v10M4 28v10h10m14 0h10V28" fill="none" stroke="currentColor" stroke-width="1"/><path d="M12 30V12h5l8 12V12h5v18h-5l-8-12v12Z" fill="currentColor"/><path d="M31 5h6v6h-6Z" class="brand-marker"/></svg></span><span>{SITE_TITLE}<small>个人观测站 / OBSERVATIONS</small></span></a></div>
+  <div class="site-toolbar"><nav aria-label="主导航">{links.map(({href,label},index) => <a href={withBase(href)} aria-current={(href==='/' ? pathname==='/' : pathname.startsWith(href)) ? 'page' : undefined}><span class="nav-index" aria-hidden="true">0{index+1}</span><span>{label}</span></a>)}</nav><button type="button" class="rain-toggle" data-motion-toggle aria-pressed="false"><Wind size={15} stroke-width={1.5} aria-hidden="true"/><span data-motion-label>暂停动态</span></button></div>
 </header>
 

@@ -13,7 +13,7 @@ Astro.response.headers.set('Cache-Control','no-store');
 <SiteLayout title={`文章 · ${SITE_TITLE}`} description="这个小站慢慢积累的文字。">
 	<div class="archive-page shell">
 		<section class="archive-room" aria-labelledby="archive-title">
-			<div class="archive-bar"><span class="mono">THE READING ROOM</span><span class="mono">{String(posts.length).padStart(2, '0')} ENTRIES</span></div>
+			<div class="archive-bar"><span class="mono">文章索引 / FIELD NOTES</span><span class="mono">{contentError?'索引暂未读取':`${String(posts.length).padStart(2,'0')} 篇公开文章`}</span></div>
 			<header class="archive-intro"><h1 id="archive-title">文章架</h1><p>挑一篇，坐一会儿。日子和想法都留在这里。</p></header>
 			{contentError?<p class="empty-state">{contentError}</p>:posts.length ? <div class="post-list">{posts.map((post, index) => <PostCard post={post} index={index} />)}</div> : <p class="empty-state">第一篇文章还在路上。这一格，先留空。</p>}
 			<div class="archive-end"><a href={withBase('/')}>← 回到小站</a><a href={withBase('/rss.xml')}>RSS 订阅 ↗</a></div>

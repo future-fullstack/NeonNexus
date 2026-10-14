@@ -1,0 +1,145 @@
+/* Personal observation station. The weather engine and its SVG palette remain independent. */
+body.observation-station[data-day]{--station-font:Atkinson,'PingFang SC','Microsoft YaHei',sans-serif;--signal:#ce743f;--serif:var(--station-font);}
+body.observation-station[data-day='day']{--bg:#f0f1eb;--surface:#f8f9f4;--surface-deep:#e6e8e0;--paper:#303630;--ink:#303630;--accent:#9d4825;--muted:#5f685f;--line:#cbd0c6;--warm:#9d4825;--purple:#6b617a;--note-sheet:#eee8d6;--note-ink:#3f4539;--sheet-active:#e2e5dc;}
+body.observation-station[data-day='night']{--bg:#151917;--surface:#1c211e;--surface-deep:#242b26;--paper:#e4e7dd;--ink:#e4e7dd;--accent:#e7a477;--muted:#b0b8aa;--line:#414b41;--warm:#e7a477;--purple:#c6b9d5;--note-sheet:#30382c;--note-ink:#e8e7d7;--sheet-active:#323e32;}
+html:has(body.observation-station[data-day='day']){background:#f0f1eb;}
+html:has(body.observation-station[data-day='night']){background:#151917;}
+body.observation-station[data-day] .season-backdrop{background-image:linear-gradient(var(--line) 1px,transparent 1px),linear-gradient(90deg,var(--line) 1px,transparent 1px);background-size:80px 80px;opacity:.16;mask-image:linear-gradient(90deg,#000,transparent 18%,transparent 82%,#000);}
+body.observation-station[data-day] .shell{width:min(1240px,calc(100% - 80px));}
+body.observation-station[data-day] :focus-visible{outline:2px solid var(--accent);outline-offset:4px;border-radius:0;}
+body.observation-station[data-day] .site-header{padding:20px 0 18px;border-bottom:3px solid var(--paper);align-items:center;gap:22px;}
+body.observation-station[data-day] .wordmark{font-family:var(--station-font);font-size:25px;font-weight:700;letter-spacing:.015em;gap:12px;text-transform:uppercase;}
+.brand-symbol{display:block;color:var(--paper);flex-shrink:0;}
+.brand-marker{fill:var(--signal);}
+body.observation-station[data-day] .wordmark small{font-family:var(--mono);font-size:10px;font-weight:400;letter-spacing:.09em;color:var(--muted);margin-top:5px;}
+body.observation-station[data-day] .site-toolbar{align-self:stretch;gap:25px;}
+body.observation-station[data-day] .site-toolbar nav{gap:0;border-inline:1px solid var(--line);}
+body.observation-station[data-day] .site-toolbar nav a{display:flex;align-items:center;gap:9px;min-width:86px;padding:15px 16px;border-radius:0;border-right:1px solid var(--line);font-size:13px;color:var(--paper);}
+body.observation-station[data-day] .site-toolbar nav a:last-child{border-right:0;}
+body.observation-station[data-day] .site-toolbar nav a[aria-current='page']{background:var(--surface-deep);box-shadow:inset 0 -3px var(--signal);color:var(--paper);}
+body.observation-station[data-day] .site-toolbar nav a:hover{background:var(--surface-deep);}
+.nav-index{font-family:var(--mono);font-size:9px;color:var(--muted);}
+body.observation-station[data-day] .rain-toggle{border:0;padding:8px 0;min-width:80px;font-size:12px;}
+.station-heading{display:flex;justify-content:space-between;align-items:center;gap:18px;padding:14px 0;font-family:var(--mono);color:var(--muted);font-size:11px;letter-spacing:.025em;}
+.station-heading>span:first-child{display:flex;align-items:center;gap:9px;}
+.station-heading i{display:inline-block;width:6px;height:6px;background:var(--signal);}
+body.observation-station .journal-hero{grid-template-columns:.79fr 1.21fr;align-items:stretch;gap:0;padding:0;border:1px solid var(--line);background:var(--surface);}
+body.observation-station .hero-copy{position:relative;padding:36px 35px 28px;display:flex;flex-direction:column;align-items:flex-start;}
+body.observation-station .hero-copy::after{content:'';position:absolute;right:0;bottom:0;width:16px;height:16px;border-top:1px solid var(--line);border-left:1px solid var(--line);background:var(--surface-deep);}
+body.observation-station .hero-eyebrow{font-size:11px;letter-spacing:.04em;gap:8px;margin-bottom:27px;color:var(--muted);}
+body.observation-station .tiny-orbit{font-family:var(--mono);font-size:20px;color:var(--accent);}
+body.observation-station .hero-copy h1{font-family:var(--station-font);font-size:clamp(34px,3.4vw,50px);line-height:1.4;font-weight:600;letter-spacing:-.03em;}
+body.observation-station .hero-copy h1 em{color:var(--paper);font-style:normal;}
+body.observation-station .hero-intro{font-size:14px;line-height:2.05;margin:23px 0 24px;}
+body.observation-station .hero-links{gap:22px;margin-bottom:26px;}
+body.observation-station .primary-link{border-radius:0;background:var(--paper);color:var(--bg);box-shadow:none;border-left:3px solid var(--signal);padding:11px 18px;gap:18px;}
+body.observation-station .primary-link:hover{background:var(--paper);color:var(--bg);transform:translateY(-1px);}
+body.observation-station .primary-link svg{color:var(--signal);}
+body.observation-station .quiet-link{font-size:13px;color:var(--paper);}
+body.observation-station .weather-slip{width:100%;margin-top:auto;padding-top:19px;border-top:1px solid var(--line);grid-template-columns:1fr;}
+body.observation-station .weather-time{font-size:11px;}
+body.observation-station .weather-slip strong{font-family:var(--mono);font-size:24px;font-weight:400;margin-top:8px;color:var(--paper);}
+body.observation-station .weather-slip>span{font-size:11px;}
+body.observation-station .weather-source{font-size:10px;gap:7px;}
+body.observation-station .live-dot{width:5px;height:5px;border-radius:0;background:var(--signal);}
+body.observation-station .window-scene-block{width:100%;margin:0;border-left:1px solid var(--line);padding:22px;background:var(--surface-deep);}
+body.observation-station .scene-caption{padding:0 0 12px;font-size:12px;gap:7px;color:var(--paper);}
+body.observation-station .scene-coordinate{color:var(--muted);font-size:10px;letter-spacing:0;}
+body.observation-station .landscape-frame{border:1px solid var(--line);border-radius:0;box-shadow:none;}
+body.observation-station .beijing-view{filter:saturate(.65);}
+body.observation-station .scene-tree{opacity:.8;}
+body.observation-station .season-foliage{opacity:.7;}
+body.observation-station[data-season='winter'] .season-foliage{opacity:.14;}
+.observation-reticle{position:absolute;z-index:3;inset:12px;pointer-events:none;border:1px solid color-mix(in srgb,var(--paper) 13%,transparent);background:repeating-linear-gradient(90deg,var(--paper) 0 1px,transparent 1px 24px) left top/100% 4px no-repeat,repeating-linear-gradient(var(--paper) 0 1px,transparent 1px 24px) left top/4px 84% no-repeat;opacity:.55;}
+.observation-reticle::before,.observation-reticle::after{content:'';position:absolute;width:12px;height:12px;border-color:var(--paper);border-style:solid;}
+.observation-reticle::before{left:-1px;top:-1px;border-width:2px 0 0 2px;}
+.observation-reticle::after{right:-1px;bottom:-1px;border-width:0 2px 2px 0;}
+.reticle-cross{position:absolute;left:calc(50% - 7px);top:34%;color:var(--paper);font-family:var(--mono);font-size:20px;font-weight:400;opacity:.5;}
+.reticle-side{position:absolute;right:3px;top:30%;font-family:var(--mono);font-size:8px;letter-spacing:.1em;writing-mode:vertical-rl;opacity:.85;}
+body.observation-station .scene-actions{right:20px;bottom:14px;gap:5px;}
+body.observation-station .scene-actions button{border-radius:0;min-height:36px;padding:7px 11px;font-size:12px;border-color:var(--line);}
+body.observation-station .scene-actions button[aria-expanded='true']{border-color:var(--accent);box-shadow:inset 0 -2px var(--signal);}
+body.observation-station .envelope-note{transform:none;border-radius:0;max-height:calc(100% - 80px);overflow:auto;border:1px solid var(--line);border-top:3px solid var(--signal);bottom:64px;right:20px;padding:30px 25px 15px;box-shadow:6px 6px 0 #1520191c;}
+body.observation-station .envelope-note p{font-family:var(--station-font);font-size:16px;}
+body.observation-station .note-date{font-family:var(--mono);font-size:11px;}
+body.observation-station .envelope-note button{position:sticky;top:0;right:auto;float:right;margin:-22px -15px 0 8px;border-radius:0;background:var(--note-sheet);z-index:1;}
+body.observation-station .scene-footnote{padding:12px 0 0;font-size:10px;color:var(--muted);}
+body.observation-station .desk-layout{grid-template-columns:minmax(0,1fr) 340px;gap:0;border:1px solid var(--line);border-top:0;padding:0;align-items:stretch;background:var(--surface);}
+body.observation-station .journal-pages{padding:29px 34px 30px;}
+body.observation-station .journal-sheet-heading{padding-bottom:21px;align-items:flex-end;}
+body.observation-station .eyebrow{font-family:var(--mono);font-size:10px;letter-spacing:.055em;color:var(--muted);}
+body.observation-station .journal-sheet-heading h2{font-family:var(--station-font);font-size:25px;line-height:1.4;font-weight:500;letter-spacing:0;}
+.section-count{display:inline-block;font-size:10px;font-family:var(--mono);font-weight:400;margin-left:17px;color:var(--muted);letter-spacing:0;vertical-align:middle;}
+.index-columns{display:grid;grid-template-columns:62px minmax(0,1fr);gap:18px;font-family:var(--mono);font-size:10px;color:var(--muted);border-block:1px solid var(--line);padding:8px 0;}
+body.observation-station[data-day] .post-row{grid-template-columns:62px minmax(0,1fr);gap:18px;padding:23px 0;border-bottom:1px solid var(--line);}
+body.observation-station[data-day] .post-index{margin-top:2px;font-size:20px;line-height:1.5;color:var(--muted);}
+.post-index small{display:block;font-size:9px;letter-spacing:.12em;margin-bottom:2px;}
+body.observation-station[data-day] .post-summary h3{font-family:var(--station-font);font-size:21px;font-weight:500;}
+body.observation-station[data-day] .post-summary h3 a{color:var(--paper);}
+body.observation-station[data-day] .post-meta{font-family:var(--mono);font-size:11px;gap:10px;}
+body.observation-station[data-day] .post-tag{font-size:10px;padding:0 5px;border:1px solid var(--line);line-height:1.7;}
+body.observation-station[data-day] .post-summary p{font-size:13px;line-height:1.95;margin-top:12px;}
+body.observation-station[data-day] .all-posts{padding:17px 0;font-size:12px;gap:17px;}
+body.observation-station .letter-invitation{margin-top:11px;border:1px solid var(--line);border-left:3px solid var(--signal);border-radius:0;padding:20px;gap:15px;background:var(--surface-deep);}
+body.observation-station .letter-invitation:hover{border-color:var(--muted);border-left-color:var(--signal);}
+body.observation-station .invitation-icon{border:0;border-radius:0;width:30px;height:36px;color:var(--accent);}
+body.observation-station .letter-invitation strong{font-size:13px;font-weight:500;}
+body.observation-station .letter-invitation small{font-size:11px;line-height:1.8;}
+body.observation-station .desk-calendar{padding:29px 24px 25px;border-left:1px solid var(--line);max-width:none;width:100%;background:var(--surface-deep);border-radius:0;}
+body.observation-station .calendar-kicker{display:flex;align-items:center;gap:7px;font-family:var(--mono);font-size:10px;margin-bottom:21px;letter-spacing:.025em;}
+.calendar-kicker i{display:inline-block;width:5px;height:5px;background:var(--signal);}
+body.observation-station .calendar-header h2{font-family:var(--mono);font-size:20px;font-weight:400;letter-spacing:-.04em;}
+body.observation-station .calendar-header button{border:1px solid var(--line);border-radius:0;}
+body.observation-station .calendar-weekdays{font-size:10px;margin-bottom:7px;}
+body.observation-station .calendar-grid{gap:1px;border:1px solid var(--line);background:var(--line);}
+body.observation-station .calendar-grid button,body.observation-station .calendar-blank{border-radius:0;min-height:35px;background:var(--surface);border:1px solid transparent;}
+body.observation-station .calendar-grid button{font-size:12px;}
+body.observation-station .calendar-grid button:hover{background:var(--surface-deep);color:var(--paper);}
+body.observation-station .calendar-grid .is-today{background:var(--paper);color:var(--bg);}
+body.observation-station .calendar-grid .is-selected{border-color:var(--accent);box-shadow:inset 0 -2px var(--signal);}
+body.observation-station .calendar-grid .has-post::after{border-radius:0;width:3px;height:3px;background:var(--accent);bottom:4px;}
+body.observation-station .calendar-grid .is-today.has-post::after{background:var(--signal);}
+body.observation-station .calendar-legend{font-size:10px;}
+body.observation-station .calendar-entry{font-size:12px;}
+body.observation-station .calendar-entry h3{font-size:10px;}
+body.observation-station .calendar-entry a{font-size:12px;}
+body.observation-station .calendar-footnote{font-size:10px;}
+body.observation-station .journal-afterword{padding:29px 0 30px;flex-direction:row;justify-content:space-between;gap:16px;text-align:left;border-bottom:1px solid var(--line);}
+body.observation-station .afterword-line{width:22px;height:2px;background:var(--signal);margin:0;flex-shrink:0;}
+body.observation-station .journal-afterword p{font-family:var(--station-font);font-size:13px;flex:1;margin:0;}
+body.observation-station .journal-afterword>span:last-child{font-family:var(--mono);font-size:11px;}
+body.observation-station[data-day] .site-footer{border:0;margin-top:8px;font-size:10px;}
+/* The same file geometry continues into reading, private correspondence and the owner's desk. */
+body.observation-station[data-day] .panel{border-radius:0;box-shadow:none;border-color:var(--line);}
+body.observation-station[data-day] .article-panel{border-top:3px solid var(--paper);padding:40px 50px;}
+body.observation-station[data-day] .article-heading h1{font-family:var(--station-font);font-size:34px;font-weight:500;line-height:1.55;}
+body.observation-station[data-day] .article-heading .eyebrow{border-left:3px solid var(--signal);padding-left:10px;}
+body.observation-station[data-day] .article-description{font-size:14px;}
+body.observation-station[data-day] .article-toc,body.observation-station[data-day] .prose pre,body.observation-station[data-day] .prose blockquote{border-radius:0;}
+body.observation-station[data-day] .prose{font-family:var(--station-font);font-size:17px;line-height:2.05;}
+body.observation-station[data-day] .prose h2,body.observation-station[data-day] .prose h3{font-family:var(--station-font);font-weight:500;}
+body.observation-station[data-day] .article-message-link{font-size:13px;}
+body.observation-station[data-day] .archive-bar{padding:11px 15px;background:var(--surface-deep);border:1px solid var(--line);font-size:11px;}
+body.observation-station[data-day] .archive-intro{padding:28px 0 23px;}
+body.observation-station[data-day] .archive-intro h1{font-family:var(--station-font);font-size:33px;font-weight:500;}
+body.observation-station[data-day] .archive-room{border-radius:0;}
+body.observation-station[data-day] .about-panel{border-top:3px solid var(--paper);}
+body.observation-station[data-day] .about-panel>h1{font-family:var(--station-font);font-size:31px;font-weight:500;}
+body.observation-station[data-day] .about-window{border-radius:0;margin-top:0;}
+body.observation-station[data-day] .message-letter{border-radius:0;box-shadow:none;border:1px solid var(--line);border-top:3px solid var(--paper);padding:40px 44px;}
+body.observation-station[data-day] .message-kicker{font-family:var(--mono);font-size:11px;color:var(--muted);}
+body.observation-station[data-day] .message-letter h1{font-family:var(--station-font);font-size:31px;font-weight:500;}
+body.observation-station[data-day] .message-letter textarea,body.observation-station[data-day] .message-submit{border-radius:0;}
+body.observation-station[data-day] .message-submit{background:var(--paper);color:var(--bg);border-color:var(--paper);border-left:3px solid var(--signal);}
+body.observation-station[data-day] .message-submit:disabled{background:var(--surface-deep);color:var(--muted);border-color:var(--line);}
+body.observation-station[data-day] .owner-login{border-top:3px solid var(--paper);border-radius:0;}
+body.observation-station[data-day] .owner-login h1{font-family:var(--station-font);font-size:29px;font-weight:500;}
+body.observation-station[data-day] .owner-login .login-emblem{border-radius:0;border-color:var(--line);border-left:3px solid var(--signal);color:var(--paper);}
+body.observation-station[data-day] .owner-page :is(input,textarea,button),body.observation-station[data-day] .owner-preview{border-radius:0;}
+body.observation-station[data-day] .owner-preview{border-top-color:var(--paper);}
+body.observation-station[data-day] .owner-login .message-submit{border-radius:0;}
+@media(max-width:1050px){body.observation-station[data-day] .shell{width:calc(100% - 48px);}body.observation-station[data-day] .site-toolbar{gap:15px;}body.observation-station[data-day] .site-toolbar nav a{min-width:70px;padding:12px 10px;gap:7px;}body.observation-station .hero-copy{padding:28px 25px;}body.observation-station .hero-copy h1{font-size:38px;}body.observation-station .window-scene-block{padding:17px;}body.observation-station .desk-layout{grid-template-columns:minmax(0,1fr) 300px;}body.observation-station .journal-pages{padding:27px 25px;}body.observation-station .desk-calendar{padding:27px 19px;}}
+@media(max-width:760px){body.observation-station[data-day] .shell{width:calc(100% - 32px);}body.observation-station[data-day] .site-header{padding:19px 0 13px;gap:17px;}body.observation-station[data-day] .wordmark{font-size:24px;}body.observation-station[data-day] .wordmark small{font-size:9px;}body.observation-station[data-day] .site-toolbar{gap:10px;width:100%;}body.observation-station[data-day] .site-toolbar nav{border-left:0;flex:1;}body.observation-station[data-day] .site-toolbar nav a{min-width:0;flex:1;justify-content:center;padding:10px 9px;gap:5px;font-size:12px;}body.observation-station[data-day] .rain-toggle{font-size:12px;min-width:80px;}body.observation-station .station-heading{font-size:10px;align-items:flex-start;padding:12px 0;gap:10px;}.station-heading>span:last-child{white-space:nowrap;}body.observation-station .journal-hero{grid-template-columns:minmax(0,1fr);}body.observation-station .hero-copy{padding:27px 25px 24px;}body.observation-station .hero-copy h1{font-size:38px;line-height:1.45;}body.observation-station .hero-eyebrow{margin-bottom:20px;font-size:11px;}body.observation-station .hero-intro{font-size:14px;max-width:330px;margin-block:18px 23px;}body.observation-station .hero-intro br{display:none;}body.observation-station .hero-links{margin-bottom:22px;}body.observation-station .weather-slip{grid-template-columns:1fr auto;margin-top:0;padding-top:17px;gap:2px 12px;}body.observation-station .weather-slip strong{grid-column:2;grid-row:1/3;font-size:22px;align-self:center;margin:0;}body.observation-station .weather-slip>span{grid-column:1;}body.observation-station .weather-source{grid-column:1/-1;}body.observation-station .window-scene-block{border-left:0;border-top:1px solid var(--line);padding:17px;}body.observation-station .scene-caption{font-size:11px;}body.observation-station .scene-coordinate{font-size:8px;}body.observation-station .scene-actions{right:17px;bottom:12px;}body.observation-station .scene-actions button{min-height:34px;padding:6px 9px;font-size:12px;}body.observation-station .scene-footnote{font-size:9px;gap:10px;}body.observation-station .desk-layout{grid-template-columns:minmax(0,1fr);}body.observation-station .journal-pages{padding:25px 22px;}body.observation-station .journal-sheet-heading h2{font-size:22px;}.section-count{display:block;margin:7px 0 0;font-size:10px;}body.observation-station .desk-calendar{border:0;border-top:1px solid var(--line);padding:26px 22px;max-width:none;}body.observation-station .calendar-grid button{aspect-ratio:auto;min-height:39px;}body.observation-station .calendar-header h2{font-size:21px;}body.observation-station .calendar-entry,body.observation-station .calendar-legend{font-size:11px;}body.observation-station .calendar-footnote{font-size:11px;}body.observation-station .index-columns{grid-template-columns:44px minmax(0,1fr);gap:13px;}body.observation-station[data-day] .post-row{grid-template-columns:44px minmax(0,1fr);gap:13px;}body.observation-station[data-day] .post-summary h3{font-size:19px;}body.observation-station[data-day] .post-index{font-size:18px;}body.observation-station .letter-invitation{padding:18px 14px;gap:10px;}body.observation-station .letter-invitation strong{font-size:12px;}body.observation-station .letter-invitation small{font-size:11px;}body.observation-station .journal-afterword{padding:24px 0;gap:12px;flex-wrap:wrap;}body.observation-station .journal-afterword p{font-size:12px;}body.observation-station .journal-afterword>span:last-child{margin-left:34px;font-size:10px;}body.observation-station[data-day] .article-panel{padding:29px 24px;}body.observation-station[data-day] .article-heading h1{font-size:28px;}body.observation-station[data-day] .prose{font-size:16px;}body.observation-station[data-day] .about-panel>h1{font-size:27px;}body.observation-station[data-day] .message-letter{padding:30px 24px;}body.observation-station[data-day] .message-letter h1{font-size:27px;}body.observation-station[data-day] .owner-login{padding:30px 25px;}}
+@media(max-width:360px){body.observation-station[data-day] .shell{width:calc(100% - 24px);}body.observation-station[data-day] .site-toolbar nav a{padding-inline:5px;gap:4px;}body.observation-station .hero-copy{padding-inline:21px;}body.observation-station .hero-copy h1{font-size:33px;}body.observation-station .station-heading{flex-wrap:wrap;gap:5px;}.station-heading>span:last-child{padding-left:15px;}body.observation-station .scene-actions{right:12px;}body.observation-station .scene-actions button{padding-inline:7px;}}
+@media(max-width:360px){body.observation-station .envelope-note{bottom:58px;right:12px;width:calc(100% - 24px);padding:25px 18px 12px;}body.observation-station .envelope-note p{font-size:14px;line-height:1.8;margin:12px 0 0;}body.observation-station .note-sign{display:none;}body.observation-station .note-date{font-size:10px;}}
+@media(max-width:760px){body.observation-station[data-weather='unknown'] .weather-slip{grid-template-columns:minmax(0,1fr);}body.observation-station[data-weather='unknown'] .weather-time{grid-column:1;grid-row:1;}body.observation-station[data-weather='unknown'] .weather-slip strong{grid-column:1;grid-row:2;justify-self:start;margin-top:6px;}body.observation-station[data-weather='unknown'] .weather-slip>span{grid-column:1;grid-row:3;}body.observation-station[data-weather='unknown'] .weather-source{grid-column:1;grid-row:4;}}
