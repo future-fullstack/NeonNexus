@@ -4,14 +4,13 @@ import Header from './Header.astro';
 import Footer from './Footer.astro';
 import {SITE_TITLE,SITE_DESCRIPTION} from '../consts';
 import '../styles/window-journal.css';
-import '../styles/observation-station.css';
 import {beijingParts,seasonFor} from '../lib/beijing';
 interface Props { title?:string; description?:string; }
 const {title=`${SITE_TITLE} · 个人小站`,description=SITE_DESCRIPTION}=Astro.props;
 const now=beijingParts();
 ---
 <!doctype html>
-<html lang="zh-CN"><head><BaseHead title={title} description={description}/></head><body id="top" class="observation-station" data-season={seasonFor(now.month)} data-weather="unknown" data-day={now.hour>=6&&now.hour<18?'day':'night'} data-motion="paused">
+<html lang="zh-CN"><head><BaseHead title={title} description={description}/></head><body id="top" data-season={seasonFor(now.month)} data-weather="unknown" data-day={now.hour>=6&&now.hour<18?'day':'night'} data-motion="paused">
   <div class="season-backdrop" aria-hidden="true"></div>
   <a class="skip-link" href="#main-content">跳到正文</a><Header/><main id="main-content" tabindex="-1"><slot/></main><Footer/>
 </body></html>

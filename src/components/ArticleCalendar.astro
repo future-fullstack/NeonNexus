@@ -2,7 +2,7 @@
 import {ChevronLeft, ChevronRight} from '@lucide/astro';
 ---
 <aside class="desk-calendar" aria-label="文章日历">
-  <span class="calendar-kicker"><i aria-hidden="true"></i> 记录日历 / CALENDAR</span>
+  <span class="calendar-kicker">日子里的书签</span>
   <div class="calendar-header"><h2 data-calendar-month>日历</h2><div><button type="button" data-calendar-shift="-1" aria-label="上一个月"><ChevronLeft size={17} stroke-width={1.4} aria-hidden="true"/></button><button type="button" data-calendar-shift="1" aria-label="下一个月"><ChevronRight size={17} stroke-width={1.4} aria-hidden="true"/></button></div></div>
   <div class="calendar-weekdays" aria-hidden="true">{['一','二','三','四','五','六','日'].map(day=><span>{day}</span>)}</div>
   <div class="calendar-grid" data-calendar-grid aria-label="日期"></div><noscript><p>开启 JavaScript 后，可以按日期翻阅文章。</p></noscript>
