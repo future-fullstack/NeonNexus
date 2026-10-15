@@ -1,0 +1,37 @@
+---
+import {SlidersHorizontal, Bookmark, X, ArrowDown, RotateCcw} from '@lucide/astro';
+interface Props {slug:string;}
+const {slug}=Astro.props;
+---
+<section class="reading-room" data-reading-room data-public-slug={slug} hidden aria-label="阅读小工具">
+  <div class="reading-tools">
+    <span class="reading-whisper">慢慢读，不必赶。</span>
+    <div class="reading-actions">
+      <button type="button" data-save-place><Bookmark size={14} stroke-width={1.5} aria-hidden="true"/><span>留枚书签</span></button>
+      <button type="button" data-reading-open aria-haspopup="dialog"><SlidersHorizontal size={14} stroke-width={1.5} aria-hidden="true"/><span>阅读设置</span></button>
+    </div>
+  </div>
+  <div class="reading-saved" data-saved-place hidden>
+    <span>这台设备记着本篇的一处位置。</span>
+    <button type="button" data-resume-place>接着读 <ArrowDown size={13} aria-hidden="true"/></button>
+    <button type="button" data-forget-place>移除</button>
+  </div>
+  <p class="reading-feedback" role="status" aria-live="polite" data-reading-feedback></p>
+  <dialog class="reading-dialog" aria-labelledby="reading-title" aria-describedby="reading-description">
+    <form method="dialog"><button class="reading-close" aria-label="关闭阅读设置" autofocus><X size={18} stroke-width={1.5} aria-hidden="true"/></button></form>
+    <p class="reading-kicker">A LITTLE READING ROOM</p>
+    <h2 id="reading-title">把这一页，调舒服些。</h2>
+    <p id="reading-description" class="reading-hint">只影响这台设备。文章还是原来的样子。</p>
+    <fieldset><legend>文字大小</legend><div class="reading-options">
+      <button type="button" data-reading-size="normal" aria-pressed="true">适中 <span>字</span></button>
+      <button type="button" data-reading-size="large" aria-pressed="false">大一些 <span class="reading-size-sample">字</span></button>
+    </div></fieldset>
+    <fieldset><legend>页面宽度</legend><div class="reading-options">
+      <button type="button" data-reading-width="standard" aria-pressed="true">舒适版心</button>
+      <button type="button" data-reading-width="wide" aria-pressed="false">宽松一些</button>
+    </div></fieldset>
+    <label class="reading-focus"><span>专心读这一页<small>暂时收起站点导航与页脚，随时可恢复。</small></span><input type="checkbox" data-reading-focus/></label>
+    <div class="reading-dialog-foot"><span>设置与书签只保存在本机，站主看不到。</span><button type="button" data-reading-reset><RotateCcw size={13} aria-hidden="true"/>恢复默认</button></div>
+  </dialog>
+</section>
+<script>import '../scripts/reading-room';</script>
