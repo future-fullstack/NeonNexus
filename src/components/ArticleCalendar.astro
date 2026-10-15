@@ -3,9 +3,9 @@ import {ChevronLeft, ChevronRight} from '@lucide/astro';
 ---
 <aside class="desk-calendar" aria-label="文章日历">
   <span class="calendar-kicker">日子里的书签</span>
-  <div class="calendar-header"><h2 data-calendar-month>日历</h2><div><button type="button" data-calendar-shift="-1" aria-label="上一个月"><ChevronLeft size={17} stroke-width={1.4} aria-hidden="true"/></button><button type="button" data-calendar-shift="1" aria-label="下一个月"><ChevronRight size={17} stroke-width={1.4} aria-hidden="true"/></button></div></div>
+  <div class="calendar-header"><h2 data-calendar-month aria-live="polite">日历</h2><div><button type="button" data-calendar-shift="-1" aria-label="上一个月"><ChevronLeft size={17} stroke-width={1.4} aria-hidden="true"/></button><button type="button" data-calendar-shift="1" aria-label="下一个月"><ChevronRight size={17} stroke-width={1.4} aria-hidden="true"/></button></div></div>
   <div class="calendar-weekdays" aria-hidden="true">{['一','二','三','四','五','六','日'].map(day=><span>{day}</span>)}</div>
-  <div class="calendar-grid" data-calendar-grid aria-label="日期"></div><noscript><p>开启 JavaScript 后，可以按日期翻阅文章。</p></noscript>
+  <div class="calendar-grid" data-calendar-grid role="group" aria-label="选择文章日期" aria-describedby="calendar-keyboard-help"></div><p class="sr-only" id="calendar-keyboard-help">日期上可用方向键换日，Home 和 End 移到本周首尾，Page Up 和 Page Down 翻月。</p><noscript><p>开启 JavaScript 后，可以按日期翻阅文章。</p></noscript>
   <div class="calendar-legend"><span><i aria-hidden="true"></i> 写下文章的日子</span><button type="button" data-calendar-today>今天</button></div>
   <div class="calendar-entry"><h3 data-calendar-selected>选择一天</h3><div data-calendar-entries aria-live="polite"></div></div>
   <span class="calendar-footnote">日历翻过去，窗外仍是今天。</span>

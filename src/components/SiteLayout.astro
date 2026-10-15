@@ -4,6 +4,7 @@ import Header from './Header.astro';
 import Footer from './Footer.astro';
 import {SITE_TITLE,SITE_DESCRIPTION} from '../consts';
 import '../styles/window-journal.css';
+import '../styles/quiet-window.css';
 import {beijingParts,seasonFor} from '../lib/beijing';
 interface Props { title?:string; description?:string; }
 const {title=`${SITE_TITLE} · 个人小站`,description=SITE_DESCRIPTION}=Astro.props;

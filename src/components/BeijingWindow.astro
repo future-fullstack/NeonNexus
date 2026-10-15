@@ -5,6 +5,7 @@ const stars=[[77,59],[211,39],[298,72],[357,45],[514,83],[461,137],[155,104]];
 ---
 <div class="beijing-window" data-lamp="on">
   <div class="scene-caption"><span class="live-dot" aria-hidden="true"></span><span>此刻，窗外</span><span class="scene-coordinate">BEIJING / 39.90° N</span></div>
+  <div class="scene-stage">
   <div class="landscape-frame">
     <svg class="beijing-view" viewBox="0 0 640 510" role="img" aria-labelledby="beijing-window-title">
       <title id="beijing-window-title">窗外的北京：远处的城市与胡同，四季的树，近处有猫、茶和一盏灯。</title>
@@ -48,9 +49,12 @@ const stars=[[77,59],[211,39],[298,72],[357,45],[514,83],[461,137],[155,104]];
       <div class="season-leaves">{Array.from({length:7},(_,i)=><i style={`--x:${i*43%100}%;--y:${i*19%100}%;--delay:-${i%6}s;--speed:${8+i%4}s`}/>)}</div>
     </div>
     <div class="lamp-glow" aria-hidden="true"></div>
-    <div class="scene-actions"><button type="button" data-lamp-toggle aria-label="关掉窗台的灯" aria-pressed="true"><LampDesk size={17} stroke-width={1.4} aria-hidden="true"/><span>一盏灯</span></button><button type="button" data-note-toggle aria-label="打开窗台上的信封" aria-expanded="false" aria-controls="window-envelope-note"><Mail size={17} stroke-width={1.4} aria-hidden="true"/><span>一封信</span></button></div>
+    <button type="button" class="scene-object-button cat-button" data-window-moment="cat" aria-label="摸摸窗边的猫" aria-describedby="window-moment"><span>摸摸猫</span></button>
+    <button type="button" class="scene-object-button tea-button" data-window-moment="tea" aria-label="在窗边喝口茶" aria-describedby="window-moment"><span>喝口茶</span></button>
     <div class="envelope-note" id="window-envelope-note" hidden><button type="button" data-note-close aria-label="合上这封信"><X size={16} aria-hidden="true"/></button><span class="note-date">留给多看一眼的人</span><p>这里没准会有好玩的东西哦（笑</p><span class="note-sign" aria-hidden="true">✧</span></div>
   </div>
-  <div class="scene-footnote"><span>天气会变，故事慢慢写。</span><span data-season-label>北京 · 秋日窗边</span></div>
+  <div class="scene-actions"><button type="button" data-lamp-toggle aria-label="关掉窗台的灯" aria-pressed="true"><LampDesk size={17} stroke-width={1.4} aria-hidden="true"/><span>一盏灯</span></button><button type="button" data-note-toggle aria-label="打开窗台上的信封" aria-expanded="false" aria-controls="window-envelope-note"><Mail size={17} stroke-width={1.4} aria-hidden="true"/><span>一封信</span></button></div>
+  </div>
+  <div class="scene-footnote"><span id="window-moment" data-window-moment-status role="status" aria-live="polite">天气会变，故事慢慢写。</span><span data-season-label>北京 · 秋日窗边</span></div>
 </div>
-<script>import '../scripts/atmosphere';</script>
+<script>import '../scripts/atmosphere';import '../scripts/window-moments';</script>

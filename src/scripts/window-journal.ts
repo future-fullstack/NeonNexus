@@ -36,6 +36,27 @@ function renderCalendar(){
   // Keep keyboard readers on their chosen date after refreshing the grid.
   if(focusedDate)days.querySelector<HTMLButtonElement>(`[data-date="${focusedDate}"]`)?.focus({preventScroll:true});
 }
+function selectCalendarDate(date:Date){
+  shownYear=date.getUTCFullYear();shownMonth=date.getUTCMonth()+1;
+  selected=dateKey(shownYear,shownMonth,date.getUTCDate());followingToday=selected===today;
+  renderCalendar();showEntries();
+  days?.querySelector<HTMLButtonElement>(`[data-date="${selected}"]`)?.focus({preventScroll:true});
+}
+days?.addEventListener('keydown',event=>{
+  const button=(event.target as HTMLElement).closest<HTMLButtonElement>('button[data-date]');
+  if(!button||event.altKey||event.ctrlKey||event.metaKey)return;
+  const [year,month,day]=button.dataset.date!.split('-').map(Number),date=new Date(Date.UTC(year,month-1,day));
+  const steps:Record<string,number>={ArrowLeft:-1,ArrowRight:1,ArrowUp:-7,ArrowDown:7};
+  if(event.key in steps)date.setUTCDate(day+steps[event.key]);
+  else if(event.key==='Home'||event.key==='End'){
+    const monday=(date.getUTCDay()+6)%7;date.setUTCDate(day+(event.key==='Home'?-monday:6-monday));
+  }else if(event.key==='PageUp'||event.key==='PageDown'){
+    const shift=(event.key==='PageUp'?-1:1)*(event.shiftKey?12:1);
+    date.setUTCDate(1);date.setUTCMonth(date.getUTCMonth()+shift);
+    date.setUTCDate(Math.min(day,new Date(Date.UTC(date.getUTCFullYear(),date.getUTCMonth()+1,0)).getUTCDate()));
+  }else return;
+  event.preventDefault();selectCalendarDate(date);
+});
 document.querySelectorAll<HTMLButtonElement>('[data-calendar-shift]').forEach(button=>button.addEventListener('click',()=>{
   const next=new Date(Date.UTC(shownYear,shownMonth-1+Number(button.dataset.calendarShift),1));shownYear=next.getUTCFullYear();shownMonth=next.getUTCMonth()+1;followingToday=false;renderCalendar();
 }));
